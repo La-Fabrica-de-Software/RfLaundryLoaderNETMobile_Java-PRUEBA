@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,10 +48,10 @@ fun Splash() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "Splash Logo")
+            contentDescription = stringResource(R.string.splash_logo))
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Cargando...",
+            text = stringResource(R.string.loading),
             color = Color.DarkGray,
             fontSize = 16.sp
         )

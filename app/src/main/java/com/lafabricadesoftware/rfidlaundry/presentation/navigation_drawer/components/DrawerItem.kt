@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lafabricadesoftware.rfidlaundry.presentation.navigation.Screens
@@ -28,13 +29,13 @@ fun DrawerItem(item: Screens, selected: Boolean, onItemClick: (Screens) -> Unit)
     ) {
         Icon(
             imageVector = item.icon,
-            contentDescription = item.title,
+            contentDescription = stringResource(item.title),
             modifier = Modifier.height(24.dp).width(24.dp)
         )
 
         Spacer(modifier = Modifier.width(7.dp))
         Text(
-            text = item.title,
+            text = stringResource(item.title),
             fontSize = 16.sp,
             color = Color.Black
         )

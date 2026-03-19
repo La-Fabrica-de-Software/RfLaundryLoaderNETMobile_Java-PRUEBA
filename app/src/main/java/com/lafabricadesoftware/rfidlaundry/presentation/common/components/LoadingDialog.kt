@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,8 @@ import androidx.compose.ui.window.Dialog
 import com.lafabricadesoftware.rfidlaundry.R
 
 @Composable
-fun LoadingDialog(text: String = "Por favor, espere un momento...") {
+fun LoadingDialog(text: String = "") {
+    val displayText = text.ifEmpty { stringResource(R.string.please_wait) }
     Dialog(
         onDismissRequest = { /*TODO*/ }
     ) {
@@ -45,7 +47,7 @@ fun LoadingDialog(text: String = "Por favor, espere un momento...") {
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(modifier = Modifier
                         .fillMaxWidth(),
-                    text = text,
+                    text = displayText,
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 16.sp,

@@ -7,11 +7,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.lafabricadesoftware.rfidlaundry.R
 
 //@Preview(showBackground = true, widthDp = 400, heightDp = 600)
 @Composable
@@ -38,7 +40,7 @@ fun MovementInformationDialog(
                     Column() {
                         Text(
                             modifier = Modifier.fillMaxWidth().padding(10.dp),
-                            text = "Información",
+                            text = stringResource(R.string.dialog_information),
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.subtitle1
                         )
@@ -66,14 +68,14 @@ fun MovementInformationDialog(
                     ) {
                         if (hideButtons) {
                             TextButton(onClick = { onConfirm(0) }) {
-                                Text(text = "Cerrar")
+                                Text(text = stringResource(R.string.btn_close))
                             }
                         } else {
                             TextButton(onClick = { onDismiss() }) {
-                                Text(text = "Cancelar")
+                                Text(text = stringResource(R.string.btn_cancel))
                             }
                             TextButton(onClick = { onConfirm(antennaId) }) {
-                                Text(text = "Aceptar")
+                                Text(text = stringResource(R.string.btn_accept))
                             }
                         }
                     }

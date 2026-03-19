@@ -17,6 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.lafabricadesoftware.rfidlaundry.R
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.Prenda
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.PrendaCliente
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.PrendaSubCliente
@@ -29,7 +31,7 @@ fun GrupoPrendaDesconocidaItem(prendas: List<Prenda>) {
             .fillMaxWidth()
         ) {
             Text(modifier = Modifier.weight(1f).padding(0.dp, 5.dp).background(Color.Transparent),
-                text = "Sin identificar",
+                text = stringResource(R.string.unidentified),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFFFF7043)
@@ -37,7 +39,7 @@ fun GrupoPrendaDesconocidaItem(prendas: List<Prenda>) {
 
             val total = prendas.count()
             Text(modifier = Modifier.padding(0.dp, 5.dp).background(Color.Transparent),
-                text = "Total: $total",
+                text = stringResource(R.string.total_count, total),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFFFF7043)
@@ -70,7 +72,7 @@ fun PrendaClienteItem(item: PrendaCliente) {
     Column(modifier = Modifier.padding(4.dp, 0.dp).background(Color.Transparent)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(modifier = Modifier.weight(1f).padding(0.dp, 5.dp).background(Color.Transparent),
-                text = if (item.nombreCliente == "") {"Sin identificar"} else {item.nombreCliente},
+                text = if (item.nombreCliente == "") { stringResource(R.string.unidentified) } else { item.nombreCliente },
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = if (item.nombreCliente == "") { Color(0xFFFF7043) } else { Color.Black }
@@ -80,7 +82,7 @@ fun PrendaClienteItem(item: PrendaCliente) {
             item.listadoPrendaSubCliente.forEach() { total += it.listadoPrenda.count() }
 
             Text(modifier = Modifier.padding(0.dp, 5.dp).background(Color.Transparent),
-                text = "Total: $total",
+                text = stringResource(R.string.total_count, total),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = if (item.nombreCliente == "") { Color(0xFFFF7043) } else { Color.Black }

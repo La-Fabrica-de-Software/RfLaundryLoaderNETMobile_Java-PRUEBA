@@ -14,9 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.lafabricadesoftware.rfidlaundry.R
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.Prenda
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.PrendaCliente
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.PrendaSubCliente
@@ -35,17 +37,11 @@ fun GrupoPrendaDesconocidaItem(prendas: List<Prenda>, group: Boolean = false) {
                     .weight(1f)
                     .padding(0.dp, 5.dp)
                     .background(Color.Transparent),
-                    text = "Sin identificar",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFFFF7043)
-                )
-
-                val total = prendas.count()
+                    text = stringResource(R.string.unidentified),
                 Text(modifier = Modifier
                     .padding(0.dp, 5.dp)
                     .background(Color.Transparent),
-                    text = "Total: $total",
+                    text = stringResource(R.string.total_count, total),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFFFF7043)
@@ -111,7 +107,7 @@ fun PrendaClienteItem(item: PrendaCliente, group: Boolean = false) {
                 .weight(1f)
                 .padding(0.dp, 5.dp)
                 .background(Color.Transparent),
-                text = if (item.nombreCliente == "") {"Sin identificar"} else {item.nombreCliente},
+                text = if (item.nombreCliente == "") { stringResource(R.string.unidentified) } else { item.nombreCliente },
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = if (item.nombreCliente == "") { Color(0xFFFF7043) } else { Color.Black }
@@ -124,7 +120,7 @@ fun PrendaClienteItem(item: PrendaCliente, group: Boolean = false) {
             Text(modifier = Modifier
                 .padding(0.dp, 5.dp)
                 .background(Color.Transparent),
-                text = "Total: $total",
+                text = stringResource(R.string.total_count, total),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = if (item.nombreCliente == "") { Color(0xFFFF7043) } else { Color.Black }
@@ -257,7 +253,7 @@ fun PrendaItem( item: Prenda, total: Int = 0 /*, onSelected: () -> Unit */) {
                 Text(modifier = Modifier
                     .padding(0.dp, 5.dp)
                     .background(Color.Transparent),
-                    text = "Total: $total",
+                    text = stringResource(R.string.total_count, total),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colors.onSurface

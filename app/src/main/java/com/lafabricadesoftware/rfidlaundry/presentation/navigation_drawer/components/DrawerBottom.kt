@@ -9,8 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.lafabricadesoftware.rfidlaundry.R
 
 @Composable
 fun DrawerBottom() {
@@ -20,7 +22,7 @@ fun DrawerBottom() {
         .background(color = Color.White)
     ) {
         Text(
-            text = "La Fábrica de Software",
+            text = stringResource(R.string.company_name),
             color = Color.Black,
             textAlign = TextAlign.Center,
             modifier = Modifier

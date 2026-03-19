@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">RFID Laundry</string>
+    <string name="title_activity_busqueda_prendas">Búsqueda de prendas</string>
+
+    <!-- Títulos de pantallas -->
+    <string name="screen_splash">Splash</string>
+    <string name="screen_lectura_prendas">Lectura de prendas</string>
+    <string name="screen_busqueda_prendas">Búsqueda de prendas</string>
+    <string name="screen_asignacion_prendas">Asignación de prendas</string>
+    <string name="screen_configuracion">Configuración</string>
+    <string name="screen_sincronizacion">Sincronización de datos</string>
+    <string name="screen_acerca_de">Acerca de</string>
+
+    <!-- Splash -->
+    <string name="splash_logo">Logo de inicio</string>
+    <string name="loading">Cargando\u2026</string>
+
+    <!-- Pantalla Acerca de -->
+    <string name="about_description">La Fábrica de Software es una empresa de ingeniería especializada en el desarrollo de sistemas informáticos integrados con nuestros equipos y máquinas, para la gestión automatizada y control textil en hospitales, fábricas, lavanderías industriales, tintorerías, etc.\n\nContamos con personal cualificado dedicado a la investigación y desarrollo de soluciones innovadoras orientadas a atender las necesidades específicas de cada uno de nuestros clientes.\n\nTrabajamos cada día para obtener todas las ventajas que ofrece la tecnología RFID para la identificación y gestión de artículos en grandes volúmenes, proporcionado una mayor eficacia y eficiencia en los procesos de hospitales, centros socio-sanitarios, lavanderías y otras colectividades: industria, hoteles, gimnasios, etc.</string>
+    <string name="logo_description">Logo</string>
+
+    <!-- Diálogos comunes -->
+    <string name="dialog_information">Información</string>
+    <string name="btn_close">Cerrar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_accept">Aceptar</string>
+    <string name="please_wait">Por favor, espere un momento\u2026</string>
+
+    <!-- Diálogo de movimientos -->
+    <string name="dialog_select_movement">Seleccione un movimiento</string>
+
+    <!-- Navegación / TopBar -->
+    <string name="show_menu">Mostrar menú</string>
+    <string name="action_ungroup">Desagrupar</string>
+    <string name="action_group">Agrupar</string>
+    <string name="action_delete_reading">Borrar lectura</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_filter">Filtrar</string>
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Lectura de prendas -->
+    <string name="btn_generate_movements">Generar movimientos</string>
+    <string name="readings_count">Lecturas: %1$d</string>
+    <string name="unique_count">Únicas: %1$d</string>
+    <string name="to_check_count">Por verificar: %1$d</string>
+    <string name="waiting_reading">Esperando lectura</string>
+    <string name="no_connection">No hay conexión</string>
+
+    <!-- Asignación de prendas -->
+    <string name="dialog_assignment_title">Asignación de prendas</string>
+    <string name="dialog_assignment_done_title">Asignación terminada</string>
+    <string name="btn_assign_garments">Asignar prendas</string>
+
+    <!-- Búsqueda de prendas -->
+    <string name="select_client">Seleccione un cliente</string>
+    <string name="select_subclient">Seleccione un subcliente</string>
+    <string name="garments_title">Prendas</string>
+    <string name="listing_clients">Listando clientes\u2026</string>
+    <string name="listing_subclients">Listando subclientes\u2026</string>
+    <string name="listing_garments">Listando prendas\u2026</string>
+
+    <!-- Menú lateral -->
+    <string name="company_name">La Fábrica de Software</string>
+
+    <!-- Configuración -->
+    <string name="db_connection_section">Conexión a base de datos</string>
+    <string name="label_server">*Servidor</string>
+    <string name="label_port">*Puerto</string>
+    <string name="label_database">*Nombre base de datos</string>
+    <string name="label_username">*Usuario</string>
+    <string name="label_password">*Contraseña</string>
+    <string name="other_settings_section">Otras configuraciones</string>
+    <string name="label_client_id">ID cliente</string>
+    <string name="label_workstation_id">*ID puesto</string>
+    <string name="label_online_only">Trabajar en línea solamente</string>
+    <string name="label_read_barcode">Leer códigos de barra</string>
+    <string name="btn_test_config">Probar configuración</string>
+    <string name="btn_clear_all">Borrar todo</string>
+
+    <!-- Elementos de la lista de prendas -->
+    <string name="unidentified">Sin identificar</string>
+    <string name="total_count">Total: %1$d</string>
+</resources>
