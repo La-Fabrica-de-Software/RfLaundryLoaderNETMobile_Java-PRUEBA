@@ -1,26 +1,30 @@
-package com.lafabricadesoftware.rfidlaundry.presentation.configuracion
-
-import android.app.Activity
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.*;
+import androidx.compose.runtime.*;
+import androidx.compose.ui.platform.LocalContext;
+import androidx.compose.ui.tooling.preview.Preview;
+import androidx.appcompat.app.AppCompatDelegate;
+import android.app.Activity;
 
 @Composable
 fun ConfiguracionScreen() {
-    // Language selector and related code
     val activity = LocalContext.current as? Activity
-    // Language change logic
-    LaunchedEffect(Unit) {
-        // Call the setApplicationLocales here
-        activity?.recreate()
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Your UI elements for the configuration screen
     }
-    // Additional configuration screen code
+
+    // Assuming you have a radio button for English and Spanish
+    RadioButton(checked = true, onClick = { 
+        AppCompatDelegate.setApplicationLocales(...)  // your locale change code
+        activity?.recreate() 
+    })
+    RadioButton(checked = false, onClick = { 
+        AppCompatDelegate.setApplicationLocales(...)  // your locale change code
+        activity?.recreate() 
+    })
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun ConfiguracionScreenPreview() {
+fun PreviewConfiguracionScreen() {
     ConfiguracionScreen()
 }
