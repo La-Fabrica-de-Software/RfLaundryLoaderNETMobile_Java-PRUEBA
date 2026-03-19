@@ -1,0 +1,38 @@
+package com.lafabricadesoftware.rfidlaundry.domain.model.ui
+
+import androidx.room.PrimaryKey
+import java.time.LocalDate
+import java.util.Date
+
+data class LecturaPrendaClienteSubCliente(
+    @PrimaryKey(autoGenerate = true) val key: Int = 0,
+    val idPrenda: Int = 0,
+    val nombrePrenda: String = "",
+    val talla: String = "",
+    val tag: String = "",
+    val isExiste: Boolean = false,
+    val isBorrado: Boolean = false,
+    val idCliente: Int = 0,
+    val nombreCliente: String = "",
+    val clienteBorrado: Boolean = false,
+    val idSubCliente: Int = 0,
+    val nombreSubCliente: String = "",
+    val subClienteBorrado: Boolean = false,
+    val idModeloPrenda: Int = 0,
+    val nombreModeloPrenda: String = "",
+    val idLastMov: Int = 0,
+    val lastMovAntena: Int = 0,
+    val lastMovFecha: String = "" //LocalDate? = null //LocalDate.now().atStartOfDay().toLocalDate().minusYears(100)
+
+
+//    val isVerificado: Boolean = false,
+//    var estado: PrendaLecturaTempEstadoType = PrendaLecturaTempEstadoType.NotVerified
+) {}
+
+
+/*
+* SELECT mp.Id, mp.descrip AS NombrePrenda, mp.codigoTAG AS Tag, mp.borrado AS Borrado, mp.id_Cliente AS IdCliente,
+* mp.id_SubCliente AS IdSubCliente, mc.Nombre AS NombreCliente, msc.Nombre AS NombreSubCliente, mc.Borrado AS ClienteBorrado,
+* msc.Borrado AS SubClienteBorrado, mp.id_ModeloPrenda AS IdModeloPrenda, mmp.Descripcion AS NombreModeloPrenda, mvp.Id AS IdLastMov,
+* mvp.id_TipoAntena AS LastMovAntena, mvp.Fecha AS LastMovFecha
+* */

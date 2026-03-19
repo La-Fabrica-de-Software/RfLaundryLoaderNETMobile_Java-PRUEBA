@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RFID Laundry</string>
+    <string name="title_activity_busqueda_prendas">Búsqueda de prendas</string>
+</resources>

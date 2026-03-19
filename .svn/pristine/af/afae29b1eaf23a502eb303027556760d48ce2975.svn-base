@@ -1,0 +1,58 @@
+package com.lafabricadesoftware.rfidlaundry.data.repository
+
+import com.lafabricadesoftware.rfidlaundry.data.data_source.config.ConfigDataCollector
+import com.lafabricadesoftware.rfidlaundry.data.data_source.remote.RemoteDataCollector
+import com.lafabricadesoftware.rfidlaundry.domain.model.*
+import com.lafabricadesoftware.rfidlaundry.domain.model.ui.LecturaPrendaClienteSubCliente
+import com.lafabricadesoftware.rfidlaundry.domain.repository.ConfigRepository
+import com.lafabricadesoftware.rfidlaundry.domain.repository.RemoteRepository
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.ConfiguracionUseCases
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.GetConfiguracion
+import javax.inject.Inject
+
+class RemoteRepositoryImpl @Inject constructor(
+    private val collector: RemoteDataCollector
+): RemoteRepository {
+    override suspend fun initConnection(config: Configuracion): Boolean {
+        return collector.initConnection(config)
+    }
+    override suspend fun testConnection(): Boolean {
+        return collector.testConnection()
+    }
+    override suspend fun testConnectionWithParameters(config: Configuracion): Boolean {
+        return collector.testConnectionWithParameters(config)
+    }
+    override suspend fun getClientes(): List<MasterClientes> {
+        return collector.getClientes()
+    }
+    override suspend fun getSubClientes(idCliente: Int): List<MasterSubClientes> {
+        return collector.getSubClientes(idCliente)
+    }
+    override suspend fun getPrendas(idSubCliente: Int): List<MasterPrendas> {
+        return collector.getPrendas(idSubCliente)
+    }
+    override suspend fun getPrendaByTag(tag: String): MasterPrendas {
+        return collector.getPrendaByTag(tag)
+    }
+    override suspend fun getPrendaClienteSubClienteByTag(tag: String): LecturaPrendaClienteSubCliente {
+        return collector.getPrendaClienteSubClienteByTag(tag)
+    }
+    override suspend fun getAntenas(): List<MasterTipoAntena> {
+        return collector.getAntenas()
+    }
+    override suspend fun getAntenasPuestos(): List<MovMostrarAntenasPuesto> {
+        return collector.getAntenasPuestos()
+    }
+    override suspend fun getLastMovPrenByIdPrenda(idPrenda: Int): MovPren {
+        return collector.getLastMovPrenByIdPrenda(idPrenda)
+    }
+    override fun setMovPrenSP(movPren: MovPren): Boolean {
+        return collector.setMovPrenSP(movPren)
+    }
+    override suspend fun getTaquillas(): List<MasterTaquilla> {
+        return collector.getTaquillas()
+    }
+    override suspend fun getTaquillaByDescripcion(descripcion: String): MasterTaquilla {
+        return collector.getTaquillaByDescripcion(descripcion)
+    }
+}

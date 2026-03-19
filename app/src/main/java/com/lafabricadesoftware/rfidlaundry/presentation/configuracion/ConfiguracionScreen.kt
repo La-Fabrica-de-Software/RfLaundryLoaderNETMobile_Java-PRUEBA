@@ -1,0 +1,171 @@
+package com.lafabricadesoftware.rfidlaundry.presentation.configuracion
+
+import android.widget.Toast
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.lafabricadesoftware.rfidlaundry.presentation.configuracion.components.TopBarConfiguracion
+import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasEvent
+import kotlinx.coroutines.CoroutineScope
+
+@Composable
+fun ConfiguracionScreen(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    viewModel: ConfiguracionViewModel = hiltViewModel()
+) {
+
+//    var state by remember { mutableStateOf("")}
+
+//    var stateSlider: Float by remember { mutableStateOf(50f)}
+//
+
+    val serverState = viewModel.server.value
+    val portState = viewModel.port.value
+    val databaseState = viewModel.database.value
+    val usernameState = viewModel.username.value
+    val passwordState = viewModel.password.value
+    val clientIdState = viewModel.clientId.value
+    val workstationIdState = viewModel.workstationId.value
+    var onlineState=viewModel.onlineOnly.value
+    var readBarcodeState=viewModel.readBarcode.value
+
+//    val antennaPowerState = viewModel.antennaPower.value
+
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.value.showMessage) {
+        Toast.makeText(LocalContext.current, uiState.value.message, Toast.LENGTH_SHORT).show()
+        viewModel.onEvent(ConfiguracionEvent.OnMessageShown)
+    }
+
+    if (!viewModel.loaded){
+        viewModel.onEvent(ConfiguracionEvent.OnInit)
+        viewModel.onEvent(ConfiguracionEvent.OnConfigurationLoaded)
+    }
+
+    Column(modifier = Modifier.background(Color(0xEEEEEEEE))) {
+        TopBarConfiguracion(scope, scaffoldState, viewModel)
+
+        Column(modifier = Modifier.weight(1f).padding(10.dp).verticalScroll(rememberScrollState())) {
+
+            Text(modifier = Modifier.padding(5.dp, 5.dp, 5.dp, 0.dp), text = "Conexión a base de datos", color = MaterialTheme.colors.primary)
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                OutlinedTextField(modifier = Modifier.fillMaxWidth().padding(5.dp, 5.dp, 5.dp, 0.dp),
+                    value = serverState, onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredServer(it)) },
+                    label = { Text(text = "*Servidor") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.primary)
+                )
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                OutlinedTextField(modifier = Modifier.weight(2f).padding(5.dp, 5.dp, 5.dp, 0.dp),
+                    value = portState, onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredPort(it)) },
+                    label = { Text(text = "*Puerto") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                OutlinedTextField(modifier = Modifier.weight(5f).padding(5.dp, 5.dp, 5.dp, 0.dp),
+                    value = databaseState, onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredDatabase(it)) },
+                    label = { Text(text = "*Nombre base de datos") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary)
+                )
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                OutlinedTextField(modifier = Modifier.weight(1f).padding(5.dp),
+                    value = usernameState,
+                    onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredUsername(it)) },
+                    label = { Text(text = "*Usuario") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary)
+                )
+                OutlinedTextField(modifier = Modifier.weight(1f).padding(5.dp),
+                    value = passwordState,
+                    onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredPassword(it)) },
+                    label = { Text(text = "*Contraseña") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
+            }
+
+            Text(modifier = Modifier.padding(5.dp, 10.dp, 5.dp, 0.dp), text = "Otras configuraciones", color = MaterialTheme.colors.primary)
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                OutlinedTextField(modifier = Modifier.weight(1f).padding(5.dp, 5.dp, 5.dp, 0.dp),
+                    value = clientIdState,
+                    onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredClientId(it)) },
+                    label = { Text(text = "ID cliente") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                OutlinedTextField(modifier = Modifier.weight(1f).padding(5.dp, 5.dp, 5.dp, 0.dp),
+                    value = workstationIdState,
+                    onValueChange = { viewModel.onEvent(ConfiguracionEvent.EnteredWorkstationId(it)) },
+                    label = { Text(text = "*ID puesto") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = MaterialTheme.colors.primary),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
+
+//            Row(modifier = Modifier
+//                .fillMaxWidth()
+//                .height(50.dp)
+//                .padding(5.dp, 15.dp, 5.dp, 5.dp)) {
+//                Text(modifier = Modifier.weight(3f).padding(top = 5.dp),
+//                     text = "Potencia lector ($antennaPowerState)")
+//                Slider(
+//                    value = uiState.value.configurationData.antennaPower.toFloat(),
+//                    onValueChange = { viewModel.onEvent(ConfiguracionUiEvent.EnteredAntennaPower(it)) },
+//                    valueRange = 50f..400f, steps = 8,
+//                    modifier = Modifier.weight(2f))
+//            }
+
+
+            Row(modifier = Modifier.fillMaxWidth().height(50.dp).padding(5.dp, 15.dp, 5.dp, 5.dp)) {
+                Text(modifier = Modifier.weight(1f).padding(top = 5.dp), text = "Trabajar en línea solamente")
+                Switch(checked = onlineState, onCheckedChange = {viewModel.onEvent(ConfiguracionEvent.SelectedOnlineOnly(it))},
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colors.primary
+                    )
+                )
+            }
+            Row(modifier = Modifier.fillMaxWidth().height(50.dp).padding(5.dp, 15.dp, 5.dp, 5.dp)) {
+                Text(modifier = Modifier.weight(1f).padding(top = 5.dp), text = "Leer códigos de barra")
+                Switch(checked = readBarcodeState, onCheckedChange = {viewModel.onEvent(ConfiguracionEvent.SelectedReadBarcode(it))},
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colors.primary
+                    )
+                )
+            }
+        }
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), horizontalArrangement = Arrangement.Center
+        ) {
+            Button(modifier = Modifier.padding(end = 10.dp),
+                onClick = { viewModel.onEvent(ConfiguracionEvent.OnTest) }) {
+                Text(text = "Probar configuración")
+            }
+            Button(modifier = Modifier,
+                onClick = { viewModel.onEvent(ConfiguracionEvent.OnClean) }) {
+                Text(text = "Borrar todo")
+            }
+        }
+    }
+}

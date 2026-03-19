@@ -1,0 +1,87 @@
+package com.lafabricadesoftware.rfidlaundry.data.data_source.no
+
+import android.os.StrictMode
+import java.sql.Connection
+import java.sql.DriverManager
+import java.sql.SQLException
+
+
+object SQLConnectionManager {
+
+    private const val driver = "net.sourceforge.jtds.jdbc.Driver"
+
+    private var host = "lfdsazuresql.public.ed62102bb6b9.database.windows.net"
+    private var port = "3342"
+    private var database = "Laundry_ShowRoom"
+    private var username = "lfs"
+    private var password = "1Avand3r-$"
+    private var url = "jdbc:jtds:sqlserver://$host:$port/$database"
+    private var timeout = 30000
+
+//    private val driver2 = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+//    private val url2 = "jdbc:sqlserver://$host:$port;databaseName=$database;user=$username;password=$password;encrypt=true;integratedSecurity=true;trustServerCertificate=true;"
+
+    private lateinit var connection: Connection
+
+    init {
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        Class.forName(driver)
+
+        println("----- -------------- -----")
+        println("----- SQLConn starts -----")
+        println("----- -------------- -----")
+
+        try {
+            connection = DriverManager.getConnection(url, username, password)
+        } catch (e: Exception) {
+            println("----- SQLConn Exception: init -----")
+            e.printStackTrace()
+        }
+    }
+
+    fun close() {
+        connection.close()
+    }
+
+    fun setNewParamenters(newHost: String, newPort: String, newDatabase: String,
+                          newUsername: String, newPassword: String, forceRestart: Boolean): Boolean {
+        host = newHost
+        port = newPort
+        database = newDatabase
+        username = newUsername
+        password = newPassword
+        url = "jdbc:jtds:sqlserver://$host:$port/$database"
+
+        return try {
+            if (forceRestart) {
+                connection.close()
+                connection = DriverManager.getConnection(url, username, password)
+            }
+            true
+        } catch (e: SQLException) {
+            false
+        }
+    }
+
+    fun getSQLConnection(): Connection {
+        return connection
+    }
+
+    fun isValid(): Pair<Boolean, String> {
+        val toReturn: Pair<Boolean, String> = try {
+            if (!connection.isClosed) {
+                Pair(true, "Conexión exitosa")
+            } else {
+                Pair(false, "No se pudo conectar")
+            }
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+            Pair(false, "No se pudo conectar (ClassNotFoundException): ${e.message}")
+        } catch (e: SQLException) {
+            e.printStackTrace()
+            Pair(false, "No se pudo conectar (Exception). Error: ${e.message}")
+        }
+        return toReturn
+    }
+}

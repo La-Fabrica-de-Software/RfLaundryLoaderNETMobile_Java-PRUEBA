@@ -1,0 +1,47 @@
+package com.lafabricadesoftware.rfidlaundry.presentation.navigation
+
+import androidx.compose.material.ScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.lafabricadesoftware.rfidlaundry.presentation.acerca_de.AcercaDeScreen
+import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignacionPrendasViewModel
+import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignarPrendasScreen
+import com.lafabricadesoftware.rfidlaundry.presentation.configuracion.ConfiguracionScreen
+import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasScreen
+import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasViewModel
+import kotlinx.coroutines.CoroutineScope
+
+@Composable
+fun NavigationDrawerNavigation(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    navController: NavHostController,
+    lecturaPrendasViewModel: LecturaPrendasViewModel,
+    asignacionPrendasViewModel: AsignacionPrendasViewModel
+){
+    NavHost(
+        navController,
+        startDestination = Screens.LecturaPrendas.route
+    ){
+
+        composable(Screens.LecturaPrendas.route){
+            LecturaPrendasScreen(navController, scope, scaffoldState, lecturaPrendasViewModel)
+        }
+
+        busquedaPrendasNavigation(navController, scope, scaffoldState)
+
+        composable(Screens.AsignacionPrendas.route){
+            AsignarPrendasScreen(scope, scaffoldState, asignacionPrendasViewModel)
+        }
+
+        composable(Screens.Configuracion.route){
+            ConfiguracionScreen(scope, scaffoldState)
+        }
+
+        composable(Screens.AcercaDe.route){
+            AcercaDeScreen(scope, scaffoldState)
+        }
+    }
+}

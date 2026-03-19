@@ -1,0 +1,39 @@
+package com.lafabricadesoftware.rfidlaundry.domain.model.ui
+
+import java.time.LocalDate
+import java.util.*
+
+data class PrendaCliente(
+    val idCliente: Int = 0,
+    val nombreCliente: String = "",
+    var listadoPrendaSubCliente: List<PrendaSubCliente> = listOf(),
+    val listadoPrendaSubClienteImmutable: List<PrendaSubCliente> = listOf(),
+    val isBorrado: Boolean = false
+)
+
+data class PrendaSubCliente(
+    val idSubCliente: Int = 0,
+    val nombreSubCliente: String = "",
+    var listadoPrenda: List<Prenda> = listOf(),
+    val listadoPrendaImmutable: List<Prenda> = listOf(),
+    val isBorrado: Boolean = false,
+    val vestuario: String = ""
+)
+
+data class Prenda(
+    val idPrenda: Int = 0,
+    val nombrePrenda: String = "",
+    val talla: String = "",
+    val tag: String = "",
+    val isExiste: Boolean = false,
+    val isBorrado: Boolean = false,
+    val isVerificado: Boolean = false,
+    val idCliente: Int = 0,
+    val isClienteBorrado: Boolean = false,
+    val idSubCliente: Int = 0,
+    val isSubClienteBorrado: Boolean = false,
+    val idModeloPrenda: Int = 0,
+    val nombreModeloPrenda: String = "",
+    val dateLastMovPrenda: String = "",
+    val lastMov: Int = 0
+)

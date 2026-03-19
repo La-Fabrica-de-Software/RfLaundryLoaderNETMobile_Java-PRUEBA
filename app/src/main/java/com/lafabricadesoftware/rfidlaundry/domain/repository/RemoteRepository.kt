@@ -1,0 +1,29 @@
+package com.lafabricadesoftware.rfidlaundry.domain.repository
+
+import com.lafabricadesoftware.rfidlaundry.domain.model.*
+import com.lafabricadesoftware.rfidlaundry.domain.model.ui.LecturaPrendaClienteSubCliente
+
+interface RemoteRepository {
+
+    suspend fun initConnection(config: Configuracion): Boolean
+    suspend fun testConnection(): Boolean
+    suspend fun testConnectionWithParameters(config: Configuracion): Boolean
+
+    suspend fun getClientes(): List<MasterClientes>
+
+    suspend fun getSubClientes(idCliente: Int): List<MasterSubClientes>
+
+    suspend fun getPrendas(idSubCliente: Int): List<MasterPrendas>
+    suspend fun getPrendaByTag(tag: String): MasterPrendas
+    suspend fun getPrendaClienteSubClienteByTag(tag: String): LecturaPrendaClienteSubCliente
+
+    suspend fun getAntenas(): List<MasterTipoAntena>
+    suspend fun getAntenasPuestos(idPuesto: Int): List<MovMostrarAntenasPuesto>
+
+    suspend fun getLastMovPrenByIdPrenda(idPrenda: Int): MovPren
+//    suspend fun setMovPren(movPren: MovPren): Int
+    fun setMovPrenSP(movPren: MovPren): Boolean
+
+    suspend fun getTaquillas(): List<MasterTaquilla>
+    suspend fun getTaquillaByDescripcion(descripcion: String): MasterTaquilla
+}

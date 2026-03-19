@@ -1,0 +1,234 @@
+package com.lafabricadesoftware.rfidlaundry.data.data_source;
+
+import com.lafabricadesoftware.rfidlaundry.domain.model.Configuracion;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class HikariCPDataSource {
+    private static HikariCPDataSource singleton = null;
+    private static final HikariConfig hConfig = new HikariConfig();
+    private static HikariDataSource hDataSource = null;
+    private static Configuracion config;
+    private static boolean errorInConnection = false;
+
+    private HikariCPDataSource(Configuracion config) {
+        HikariCPDataSource.config = config;
+        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;", config.getServer(), config.getPort(), config.getDatabase());
+        hConfig.setJdbcUrl(url);
+
+        hConfig.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
+        hConfig.setUsername(config.getUsername());
+        hConfig.setPassword(config.getPassword());
+        hConfig.addDataSourceProperty("cachePrepStmts", "true");
+        hConfig.addDataSourceProperty("prepStmtCacheSize", "750");
+        hConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        hConfig.setConnectionTestQuery("SELECT GETDATE()");
+        hConfig.setMaximumPoolSize(32);
+        hConfig.getDataSourceProperties().put("cacheMetaData", true);
+
+        if (hDataSource != null) {
+            hDataSource.close();
+//            hDataSource = null;
+        }
+        hDataSource = new HikariDataSource(hConfig);
+    }
+
+    public HikariCPDataSource getInstance() {
+        if(singleton == null) {
+//            throw new AssertionError("----- You have to call HikariCPDataSource init first.");
+            init(new Configuracion(), false);
+        }
+        return singleton;
+    }
+
+    public static HikariCPDataSource init(Configuracion config, boolean onlyTest) {
+        if (config.getServer().equals("")) {
+            config = new Configuracion();
+            config.setServer("lfdsamazonrds.cwc1t3aqjwgt.eu-west-3.rds.amazonaws.com");
+            config.setPort("3433");
+            config.setDatabase("Laundry_ShowRoom");
+            config.setUsername("lfs");
+            config.setPassword("1Avand3r-$");
+        }
+
+        Configuracion actualConfig = new Configuracion();
+
+        if (HikariCPDataSource.config != config) {
+            actualConfig = HikariCPDataSource.config;
+            singleton = null;
+        }
+        if (singleton != null)
+        {
+            throw new AssertionError("----- You already initialized HikariCPDataSource.");
+        }
+        try {
+            singleton = new HikariCPDataSource(config);
+            if (onlyTest && !actualConfig.getServer().equals("")) {
+                singleton = null;
+                singleton = new HikariCPDataSource(actualConfig);
+            }
+        } catch(Exception e) {
+            singleton = new HikariCPDataSource(actualConfig);
+            errorInConnection = true;
+        }
+        return singleton;
+    }
+    public static Connection getConnection() throws Exception {
+        if (singleton == null) {
+            throw new AssertionError("----- You have to call HikariCPDataSource init first.");
+        }
+        return hDataSource.getConnection();
+    }
+    public static Connection getConnection(Configuracion config, boolean onlyTest) throws Exception {
+        if(singleton == null) {
+//            throw new AssertionError("----- You have to call HikariCPDataSource init first.");
+            init(config, onlyTest);
+        }
+        if (errorInConnection) {
+            throw new Exception("Connection error.");
+        } else {
+            return hDataSource.getConnection();
+        }
+    }
+
+
+
+
+
+
+
+
+//    public Configuracion config;
+//
+////    public String server;
+////    public String port;
+////    public String database;
+////    public String username;
+////    public String password;
+//
+//    private static final HikariConfig hConfig = new HikariConfig();
+//    private static HikariDataSource ds = null;
+//
+//    private HikariCPDataSource()
+//    {
+//        if (config.getServer().equals("")) {
+//            config = new Configuracion();
+//            config.setServer("lfdsazuresql.public.ed62102bb6b9.database.windows.net");
+//            config.setPort("3342");
+//            config.setDatabase("Laundry_ShowRoom");
+//            config.setUsername("lfs");
+//            config.setPassword("1Avand3r-$");
+//        }
+//        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;", config.getServer(), config.getPort(), config.getDatabase());
+//        hConfig.setJdbcUrl(url);
+//
+////        config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//        hConfig.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
+//
+//        hConfig.setUsername(config.getUsername());
+//        hConfig.setPassword(config.getPassword());
+//        hConfig.addDataSourceProperty("cachePrepStmts", "true");
+//        hConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+//        hConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+//        hConfig.setConnectionTestQuery("SELECT GETDATE()");
+//        hConfig.setMaximumPoolSize(32);
+//        hConfig.getDataSourceProperties().put("cacheMetaData", true);
+//
+//        ds = new HikariDataSource(hConfig);
+//    }
+//    public static Connection getConnection(Configuracion conf) throws SQLException {
+//        String newUrl = String.format("jdbc:jtds:sqlserver://%s:%s/%s;", conf.getServer(), conf.getPort(), conf.getDatabase());
+//        String newUsername = conf.getUsername();
+//        String newPassword = conf.getPassword();
+//
+//        if (ds == null || hConfig.getJdbcUrl() != newUrl) {
+//            ds = new HikariDataSource();
+//        }
+//
+//        return ds.getConnection();
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    static {
+////        config.setJdbcUrl("jdbc:sqlserver://lfdsazuresql.public.ed62102bb6b9.database.windows.net:3342;encrypt=true;databaseName=Laundry_ShowRoom;integratedSecurity=true;");
+////        private val url = "jdbc:jtds:sqlserver://$host:$port/$database"
+//
+////        config.setJdbcUrl("jdbc:jtds:sqlserver://lfdsazuresql.public.ed62102bb6b9.database.windows.net:3342/Laundry_ShowRoom;");
+//
+//        String url = String.format("jdbc:jtds:sqlserver://%s:%s/%s;", server, port, database);
+//        config.setJdbcUrl("jdbc:jtds:sqlserver://$server:$port/$database;");
+//
+////        config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//        config.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
+//
+//        config.setUsername("lfs");
+//        config.setPassword("1Avand3r-$");
+//        config.addDataSourceProperty("cachePrepStmts", "true");
+//        config.addDataSourceProperty("prepStmtCacheSize", "250");
+//        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+//        config.setConnectionTestQuery("SELECT GETDATE()");
+//        config.setMaximumPoolSize(32);
+//        config.getDataSourceProperties().put("cacheMetaData", true);
+//
+////        config.setValidationTimeout(5000);
+////        config.setConnectionTimeout(30 * 1000);
+////        config.setMaxLifetime(5000);
+////        config.setIdleTimeout(5000);
+//
+//        ds = new HikariDataSource(config);
+//    }
+
+//    public static Connection getConnection() throws SQLException {
+//        return ds.getConnection();
+//    }
+
+
+//    private static final HikariConfig config = new HikariConfig();
+//    private static final HikariDataSource ds;
+//
+//    private HikariCPDataSource(){}
+//
+//    static {
+////        config.setJdbcUrl("jdbc:sqlserver://lfdsazuresql.public.ed62102bb6b9.database.windows.net:3342;encrypt=true;databaseName=Laundry_ShowRoom;integratedSecurity=true;");
+////        private val url = "jdbc:jtds:sqlserver://$host:$port/$database"
+//        config.setJdbcUrl("jdbc:jtds:sqlserver://lfdsazuresql.public.ed62102bb6b9.database.windows.net:3342/Laundry_ShowRoom;");
+//
+////        config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//        config.setDriverClassName("net.sourceforge.jtds.jdbc.Driver");
+//
+//        config.setUsername("lfs");
+//        config.setPassword("1Avand3r-$");
+//        config.addDataSourceProperty("cachePrepStmts", "true");
+//        config.addDataSourceProperty("prepStmtCacheSize", "250");
+//        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+//        config.setConnectionTestQuery("SELECT GETDATE()");
+//        config.setMaximumPoolSize(32);
+//        config.getDataSourceProperties().put("cacheMetaData", true);
+//
+////        config.setValidationTimeout(5000);
+////        config.setConnectionTimeout(30 * 1000);
+////        config.setMaxLifetime(5000);
+////        config.setIdleTimeout(5000);
+//
+//        ds = new HikariDataSource(config);
+//    }
+//
+//    public static Connection getConnection() throws SQLException {
+//        return ds.getConnection();
+//    }
+}

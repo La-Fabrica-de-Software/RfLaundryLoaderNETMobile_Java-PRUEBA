@@ -1,0 +1,59 @@
+package com.lafabricadesoftware.rfidlaundry.domain.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class MasterPrendas(
+    @PrimaryKey var Id: Int = 0,
+    var id_ModeloPrenda: Int = 0,
+    var id_Cliente: Int = 0,
+    var id_subCliente: Int = 0,
+    var codigoTAG: String = "",
+    var descrip: String = "",
+    var FAlta: String = "",
+    var FBaja: String = "",
+    var Talla: String = "",
+    var borrado: Boolean = false,
+    var DateLastMov: String = "",
+    var LastIdMov: Int = 0,
+    var LastMov: Int = 0
+)
+
+
+/*
+        [PrimaryKey]
+        public int Id { get; set; }
+        public int id_ModeloPrenda { get; set; }
+        public int id_Cliente { get; set; }
+        public int id_subCliente { get; set; }
+        public string codigoTAG { get; set; }
+        public string descrip { get; set; }
+        public string FAlta { get; set; }
+        public string FBaja { get; set; }
+        public string Nueva { get; set; }
+        public string NLavados { get; set; }
+        public string Taquilla { get; set; }
+        public string Color { get; set; }
+        public string Accesorio { get; set; }
+        public string Talla { get; set; }
+        public string id_etiqueta { get; set; }
+        public bool borrado { get; set; }
+        public string NCiclos { get; set; }
+        public string NOrden { get; set; }
+        public string NTotal { get; set; }
+        public string LastMov { get; set; }
+        public string DateLastMov { get; set; }
+        public string FBajaReal { get; set; }
+        public string stock { get; set; }
+        public string Facturable { get; set; }
+        public string IdMaqLastMov { get; set; }
+        public string Personalizada { get; set; }
+        public string LastIdMov { get; set; }
+        public string ComprobacionLecturas { get; set; }
+        public string idUbicacion { get; set; }
+        public string IdTipoRopa { get; set; }
+        public string TemperaturaLavadoRopa { get; set; }
+        public string TemperaturaSecadoRopa { get; set; }
+        public string ModeloComprobacion { get; set; }
+ */

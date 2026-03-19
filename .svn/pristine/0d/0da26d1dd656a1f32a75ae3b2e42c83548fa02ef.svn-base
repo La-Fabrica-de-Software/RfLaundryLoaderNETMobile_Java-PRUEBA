@@ -1,0 +1,208 @@
+package com.lafabricadesoftware.rfidlaundry.presentation.configuracion
+
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lafabricadesoftware.rfidlaundry.domain.model.Configuracion
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.ConfiguracionUseCases
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.SetConfiguracion
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.TestConnectionRemote
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.TestConnectionWithParametersRemote
+import com.lafabricadesoftware.rfidlaundry.domain.util.AntennaModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+@HiltViewModel
+class ConfiguracionViewModel @Inject constructor(
+    configUseCases: ConfiguracionUseCases,
+    private val testConnectionWithParametersRemote: TestConnectionWithParametersRemote,
+    private val setConfiguracion: SetConfiguracion
+) : ViewModel() {
+
+    private val _configuration = configUseCases
+    private var _message = ""
+
+    private val _server = mutableStateOf("")
+    val server: State<String> = _server
+    private val _port = mutableStateOf("")
+    val port: State<String> = _port
+    private val _database = mutableStateOf("")
+    val database: State<String> = _database
+    private val _username = mutableStateOf("")
+    val username: State<String> = _username
+    private val _password = mutableStateOf("")
+    val password: State<String> = _password
+
+    private val _clientId = mutableStateOf("")
+    val clientId: State<String> = _clientId
+    private val _workstationId = mutableStateOf("")
+    val workstationId: State<String> = _workstationId
+//    private val _antennaPower = mutableStateOf(false)
+//    val antennaPower: State<Boolean> = _antennaPower
+
+    private val _onlineOnly = mutableStateOf(true)
+    val onlineOnly: State<Boolean> = _onlineOnly
+    private val _readBarcode = mutableStateOf(false)
+    val readBarcode: State<Boolean> = _readBarcode
+
+    private val _uiState = MutableStateFlow(ConfiguracionState())
+    val uiState = _uiState.asStateFlow()
+
+    //Jobs
+    private var testConnectionJob: Job? = null
+
+    init {
+        onEvent(ConfiguracionEvent.OnInit)
+    }
+
+    //region Events
+    fun onEvent(event: ConfiguracionEvent) {
+        when(event) {
+            is ConfiguracionEvent.OnInit -> {
+                val onInitConfig = _configuration.getConfiguracion()
+                _uiState.value = _uiState.value.copy(
+                    configurationData = onInitConfig
+                )
+                _server.value = onInitConfig.server
+                _port.value = onInitConfig.port
+                _database.value = onInitConfig.database
+                _username.value = onInitConfig.username
+                _password.value = onInitConfig.password
+//                _clientId.value = onInitConfig.clientId
+//                _workstationId.value = onInitConfig.workstationId
+//                _antennaPower.value = onInitConfig.antennaPower
+                _onlineOnly.value = onInitConfig.onlineOnly
+                _readBarcode.value = onInitConfig.readBarcode
+            }
+            is ConfiguracionEvent.EnteredServer -> {
+                _server.value = event.value
+            }
+            is ConfiguracionEvent.EnteredPort -> {
+                _port.value = event.value
+            }
+            is ConfiguracionEvent.EnteredDatabase -> {
+                _database.value = event.value
+            }
+            is ConfiguracionEvent.EnteredUsername -> {
+                _username.value = event.value
+            }
+            is ConfiguracionEvent.EnteredPassword -> {
+                _password.value = event.value
+            }
+            is ConfiguracionEvent.EnteredClientId -> {
+                _clientId.value = event.value
+            }
+            is ConfiguracionEvent.EnteredWorkstationId -> {
+                _workstationId.value = event.value
+            }
+//            is ConfiguracionUiEvent.EnteredAntennaPower -> {
+//                _antennaPower.value = event.value
+//            }
+            is ConfiguracionEvent.SelectedOnlineOnly -> {
+                _onlineOnly.value = event.value
+            }
+            is ConfiguracionEvent.SelectedReadBarcode -> {
+                _readBarcode.value = event.value
+            }
+            is ConfiguracionEvent.OnLoadDefault -> {
+                val onLoadDefaultConfig = _configuration.getConfiguracion(getDefault = true)
+                _uiState.value = _uiState.value.copy(
+                    configurationData = onLoadDefaultConfig,
+                    showMessage = true,
+                    message = "Cargados valores por defecto"
+                )
+                _server.value = onLoadDefaultConfig.server
+                _port.value = onLoadDefaultConfig.port
+                _database.value = onLoadDefaultConfig.database
+                _username.value = onLoadDefaultConfig.username
+                _password.value = onLoadDefaultConfig.password
+
+                _onlineOnly.value = onLoadDefaultConfig.onlineOnly
+                _readBarcode.value = onLoadDefaultConfig.readBarcode
+            }
+            is ConfiguracionEvent.OnSave -> {
+                val config = Configuracion(
+                    _server.value,
+                    _port.value,
+                    _database.value,
+                    _username.value,
+                    _password.value,
+                    if (_clientId.value != "") {_clientId.value.toInt()} else {0},
+                    if (_workstationId.value != "") {_workstationId.value.toInt()} else {0},
+
+                    onlineOnly = _onlineOnly.value,
+                    readBarcode = _readBarcode.value
+                )
+                setConfiguracion(config)
+                _uiState.value = _uiState.value.copy(
+                    configurationData = config,
+                    showMessage = true,
+                    message = "Datos guardados correctamente."
+                )
+            }
+            is ConfiguracionEvent.OnTest -> {
+                testConnectionJob?.cancel()
+                testConnectionJob = testConnectionJob()
+            }
+            is ConfiguracionEvent.OnTestNoParam -> {
+
+            }
+            is ConfiguracionEvent.OnClean -> {
+                _server.value = ""
+                _port.value = ""
+                _database.value = ""
+                _username.value = ""
+                _password.value = ""
+                _clientId.value = "0"
+                _workstationId.value = "0"
+
+                _onlineOnly.value = true
+                _readBarcode.value = false
+
+                _uiState.value = _uiState.value.copy(
+                    configurationData = Configuracion(),
+                    showMessage = true,
+                    message = "Campos borrados"
+                )
+            }
+        }
+    }
+    //endregion
+
+    //region Jobs
+    private fun testConnectionJob(): Job {
+        return viewModelScope.launch(Dispatchers.IO) {
+            val testConnResult = testConnectionWithParametersRemote(
+                Configuracion(
+                    server = _server.value,
+                    port = _port.value,
+                    database = _database.value,
+                    username = _username.value,
+                    password = _password.value
+                )
+            )
+            withContext(Dispatchers.Main) {
+                if (testConnResult) {
+                    _uiState.value = _uiState.value.copy(
+                        showMessage = true,
+                        message = "Conexión exitosa."
+                    )
+                } else {
+                    _uiState.value = _uiState.value.copy(
+                        showMessage = true,
+                        message = "Ocurrió un error al conectar a la base de datos. Revise los datos y pruebe otra vez."
+                    )
+                }
+
+            }
+        }
+    }
+    //endregion
+}

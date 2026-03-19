@@ -1,0 +1,42 @@
+package com.lafabricadesoftware.rfidlaundry.domain.model
+
+import com.gitlab.mvysny.konsumexml.Konsumer
+import com.gitlab.mvysny.konsumexml.childInt
+import com.lafabricadesoftware.rfidlaundry.domain.util.AntennaModel
+
+data class Configuracion(
+    var server: String = "",
+    var port: String = "",
+    var database: String = "",
+    var username: String = "",
+    var password: String = "",
+    var clientId: Int = 0,
+    var workstationId: Int = 0,
+    var antennaModel: AntennaModel = AntennaModel.ChainwayC72,
+    var antennaPower: Int = 50,
+    var onlineOnly: Boolean = false,
+    var readBarcode: Boolean = false
+) {
+    companion object {
+        fun getObject(k: Konsumer): Configuracion {
+            k.checkCurrent("Configuracion")
+            return Configuracion(
+                server = k.childText("server"),
+                port = k.childText("port"),
+                database = k.childText("database"),
+                username = k.childText("username"),
+                password = k.childText("password"),
+                clientId = k.childInt("clientId"),
+                workstationId = k.childInt("workstationId"),
+                antennaModel = when (k.childText("antennaModel")) {
+                    "ChainwayC72" -> { AntennaModel.ChainwayC72 }
+                    else -> { AntennaModel.ChainwayC72 }
+                },
+                antennaPower = k.childInt("antennaPower"),
+                onlineOnly = k.childText("onlineOnly") == "true",
+                readBarcode = k.childText("readBarcode") == "true"
+            )
+        }
+    }
+
+}

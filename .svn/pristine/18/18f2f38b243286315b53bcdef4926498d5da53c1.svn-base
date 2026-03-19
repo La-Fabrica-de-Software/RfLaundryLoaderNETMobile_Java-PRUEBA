@@ -1,0 +1,56 @@
+package com.lafabricadesoftware.rfidlaundry.domain.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class MasterSubClientes(
+    @PrimaryKey val id: Int,
+    val id_cliente: Int?,
+    val Nombre: String,
+    val Apellido1: String,
+    val Puesto: String,
+    val Borrado: Boolean,
+    val Apellido2: String,
+    val FAlta: String,
+    val FBaja: String
+) {
+//    companion object {
+//        val tags = listOf<Tag>()
+//    }
+}
+
+/*
+[PrimaryKey]
+        public int id { get; set; }
+        public int? id_cliente { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido1 { get; set; }
+        public string Sexo { get; set; }
+        public string Puesto { get; set; }
+        public string Turno { get; set; }
+        public string Vestuario { get; set; }
+        public string Taquilla { get; set; }
+        public int id_DepartamentoCliente { get; set; }
+        public int id_etiqueta { get; set; }
+        public bool? Borrado { get; set; }
+        public string Foto { get; set; }
+        public string Obser { get; set; }
+        public string Campo1 { get; set; }
+        public string Campo2 { get; set; }
+        public string Apellido2 { get; set; }
+        public string FAlta { get; set; }
+        public string FBaja { get; set; }
+        public string codigoTAG { get; set; }
+        public byte[] upsize_ts { get; set; }
+        public string LocSOPL { get; set; }
+        public string RopaPersonalizada { get; set; }
+        public string telefono { get; set; }
+        public string DesactivacionManual { get; set; }
+        public string Generico { get; set; }
+        public string EnUso { get; set; }
+        public string FNacimiento { get; set; }
+        public string DNI { get; set; }
+        public string Categoria { get; set; }
+        public string IdEmpleado { get; set; }
+ */
