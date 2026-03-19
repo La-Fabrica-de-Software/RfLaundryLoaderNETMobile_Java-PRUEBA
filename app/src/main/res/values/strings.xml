@@ -1,4 +1,83 @@
 <resources>
     <string name="app_name">RFID Laundry</string>
-    <string name="title_activity_busqueda_prendas">Búsqueda de prendas</string>
+    <string name="title_activity_busqueda_prendas">Garment search</string>
+
+    <!-- Screen titles -->
+    <string name="screen_splash">Splash</string>
+    <string name="screen_lectura_prendas">Garment reading</string>
+    <string name="screen_busqueda_prendas">Garment search</string>
+    <string name="screen_asignacion_prendas">Garment assignment</string>
+    <string name="screen_configuracion">Settings</string>
+    <string name="screen_sincronizacion">Data synchronization</string>
+    <string name="screen_acerca_de">About</string>
+
+    <!-- Splash -->
+    <string name="splash_logo">Splash Logo</string>
+    <string name="loading">Loading\u2026</string>
+
+    <!-- About screen -->
+    <string name="about_description">La Fábrica de Software is an engineering company specialised in the development of integrated information systems with our equipment and machines, for automated management and textile control in hospitals, factories, industrial laundries, dry cleaners, etc.\n\nWe have qualified staff dedicated to research and development of innovative solutions aimed at meeting the specific needs of each of our clients.\n\nWe work every day to obtain all the advantages offered by RFID technology for the identification and management of items in large volumes, providing greater efficacy and efficiency in the processes of hospitals, socio-health centres, laundries and other communities: industry, hotels, gyms, etc.</string>
+    <string name="logo_description">Logo</string>
+
+    <!-- Common dialogs -->
+    <string name="dialog_information">Information</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_accept">Accept</string>
+    <string name="please_wait">Please wait a moment\u2026</string>
+
+    <!-- Movements dialog -->
+    <string name="dialog_select_movement">Select a movement</string>
+
+    <!-- Navigation / TopBar -->
+    <string name="show_menu">Show menu</string>
+    <string name="action_ungroup">Ungroup</string>
+    <string name="action_group">Group</string>
+    <string name="action_delete_reading">Delete reading</string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Lectura de prendas -->
+    <string name="btn_generate_movements">Generate movements</string>
+    <string name="readings_count">Readings: %1$d</string>
+    <string name="unique_count">Unique: %1$d</string>
+    <string name="to_check_count">To verify: %1$d</string>
+    <string name="waiting_reading">Waiting for reading</string>
+    <string name="no_connection">No connection</string>
+
+    <!-- Asignación de prendas -->
+    <string name="dialog_assignment_title">Garment assignment</string>
+    <string name="dialog_assignment_done_title">Assignment complete</string>
+    <string name="btn_assign_garments">Assign garments</string>
+
+    <!-- Búsqueda de prendas -->
+    <string name="select_client">Select a client</string>
+    <string name="select_subclient">Select a subclient</string>
+    <string name="garments_title">Garments</string>
+    <string name="listing_clients">Listing clients\u2026</string>
+    <string name="listing_subclients">Listing subclients\u2026</string>
+    <string name="listing_garments">Listing garments\u2026</string>
+
+    <!-- Navigation drawer -->
+    <string name="company_name">La Fábrica de Software</string>
+
+    <!-- Configuración -->
+    <string name="db_connection_section">Database connection</string>
+    <string name="label_server">*Server</string>
+    <string name="label_port">*Port</string>
+    <string name="label_database">*Database name</string>
+    <string name="label_username">*Username</string>
+    <string name="label_password">*Password</string>
+    <string name="other_settings_section">Other settings</string>
+    <string name="label_client_id">Client ID</string>
+    <string name="label_workstation_id">*Workstation ID</string>
+    <string name="label_online_only">Work online only</string>
+    <string name="label_read_barcode">Read barcodes</string>
+    <string name="btn_test_config">Test configuration</string>
+    <string name="btn_clear_all">Clear all</string>
+
+    <!-- Garment list items -->
+    <string name="unidentified">Unidentified</string>
+    <string name="total_count">Total: %1$d</string>
 </resources>

@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -57,7 +58,7 @@ fun AsignarPrendasScreen(
 
     if (uiState.value.showAssignmentInitialDialog) {
         SuperDialog(
-            title = "Asignación de prendas",
+            title = stringResource(R.string.dialog_assignment_title),
             text = uiState.value.dialogText,
             onDismiss = { asignacionPrendasViewModel.onEvent(AsignacionPrendasEvent.ShowAssignmentInitialDialog(false)) },
             onConfirm = {
@@ -69,7 +70,7 @@ fun AsignarPrendasScreen(
 
     if (uiState.value.showAssignmentDoneDialog) {
         SuperDialog(
-            title = "Asignación terminada",
+            title = stringResource(R.string.dialog_assignment_done_title),
             text = uiState.value.dialogText,
             showCloseButtonOnly = true,
             onDismiss = { asignacionPrendasViewModel.onEvent(AsignacionPrendasEvent.ShowAssignmentDoneDialog(false)) },
@@ -96,9 +97,9 @@ fun AsignarPrendasScreen(
                 .padding(0.dp, 5.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Lecturas: ${uiState.value.total}", color = Color.LightGray)
-                Text("Únicas: ${uiState.value.unique}", color = Color.LightGray)
-                Text("Por verificar: ${uiState.value.toBeChecked}", color = Color.LightGray)
+                Text(stringResource(R.string.readings_count, uiState.value.total), color = Color.LightGray)
+                Text(stringResource(R.string.unique_count, uiState.value.unique), color = Color.LightGray)
+                Text(stringResource(R.string.to_check_count, uiState.value.toBeChecked), color = Color.LightGray)
             }
         }
         Column(modifier = Modifier
@@ -124,9 +125,9 @@ fun AsignarPrendasScreen(
                     verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     if (uiState.value.connectionStatus) {
-                        Text(text = "Esperando lectura")
+                        Text(text = stringResource(R.string.waiting_reading))
                     } else {
-                        Text(text = "No hay conexión", color = Color.Red)
+                        Text(text = stringResource(R.string.no_connection), color = Color.Red)
                     }
                 }
             }
@@ -234,4 +235,3 @@ fun Barcode(asignacionPrendasViewModel: AsignacionPrendasViewModel, barcode: Str
 @Composable
 fun SearchViewPreview() {
 }
-

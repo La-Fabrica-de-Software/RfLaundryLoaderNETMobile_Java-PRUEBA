@@ -11,10 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.lafabricadesoftware.rfidlaundry.R
 import com.lafabricadesoftware.rfidlaundry.presentation.common.components.LoadingDialog
 import com.lafabricadesoftware.rfidlaundry.presentation.busqueda_prendas.components.ClienteItem
 import com.lafabricadesoftware.rfidlaundry.presentation.busqueda_prendas.components.TopBarCliente
@@ -59,10 +61,7 @@ fun BusquedaPrendasClienteScreen(
                     .weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-//                    Button(onClick = { busquedaPrendasViewModel.onEvent(BusquedaPrendasUiEvent.GetClientes) }) {
-//                        Icon(Icons.Filled.Refresh, "")
-//                    }
-                    Text(text = "Listando clientes...")
+                    Text(text = stringResource(R.string.listing_clients))
                 }
             }
         }

@@ -10,16 +10,18 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.lafabricadesoftware.rfidlaundry.R
 
 @Composable
 fun SuperDialog(
     showTitle: Boolean = true,
-    title: String = "Información",
+    title: String = "",
     titleAlign: TextAlign = TextAlign.Start,
     showTitleSpacer: Boolean = true,
     text: String = "Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.",
@@ -30,6 +32,7 @@ fun SuperDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
+    val resolvedTitle = title.ifEmpty { stringResource(R.string.dialog_information) }
     Dialog(
         onDismissRequest = { onDismiss() },
         properties = DialogProperties(
@@ -47,7 +50,7 @@ fun SuperDialog(
                 if (showTitle) {
                     Row(modifier = Modifier.padding(0.dp)) {
                         Text(modifier = Modifier.fillMaxWidth(),
-                            text = title,
+                            text = resolvedTitle,
                             textAlign = titleAlign,
                             style = MaterialTheme.typography.h6
                         )
@@ -84,16 +87,16 @@ fun SuperDialog(
                     if (showCloseButtonOnly) {
                         TextButton(modifier = Modifier.height(35.dp),
                             onClick = { onDismiss() }) {
-                            Text(text = "Cerrar")
+                            Text(text = stringResource(R.string.btn_close))
                         }
                     } else {
                         TextButton(modifier = Modifier.height(35.dp),
                             onClick = { onDismiss() }) {
-                            Text(text = "Cancelar")
+                            Text(text = stringResource(R.string.btn_cancel))
                         }
                         TextButton(modifier = Modifier.height(35.dp),
                             onClick = { onConfirm() }) {
-                            Text(text = "Aceptar")
+                            Text(text = stringResource(R.string.btn_accept))
                         }
                     }
                 }

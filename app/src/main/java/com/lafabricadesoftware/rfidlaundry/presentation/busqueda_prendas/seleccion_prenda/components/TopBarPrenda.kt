@@ -4,8 +4,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.lafabricadesoftware.rfidlaundry.R
 
 @Composable
 fun TopBarPrenda(
@@ -14,7 +16,7 @@ fun TopBarPrenda(
     TopAppBar(
         elevation = 5.dp,
         title = {
-            Text("Prendas")
+            Text(stringResource(R.string.garments_title))
         },
         backgroundColor = MaterialTheme.colors.primarySurface,
         navigationIcon = {

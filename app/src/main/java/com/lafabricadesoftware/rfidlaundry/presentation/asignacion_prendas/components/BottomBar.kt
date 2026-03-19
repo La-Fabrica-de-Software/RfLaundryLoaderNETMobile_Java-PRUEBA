@@ -7,6 +7,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,7 @@ fun BottomBar(
                 onClick = {
                     asignacionPrendasViewModel.onEvent(AsignacionPrendasEvent.ShowAssignmentInitialDialog(true))
                 }) {
-                Text(text = "Asignar prendas", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                Text(text = stringResource(R.string.btn_assign_garments), fontSize = 18.sp, fontWeight = FontWeight.Medium)
             }
         }
     }

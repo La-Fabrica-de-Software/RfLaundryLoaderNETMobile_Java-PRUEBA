@@ -5,8 +5,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.lafabricadesoftware.rfidlaundry.R
 
 @Composable
 fun TopBarSubCliente(
@@ -15,7 +17,7 @@ fun TopBarSubCliente(
     TopAppBar(
         elevation = 5.dp,
         title = {
-            Text("Seleccione un subcliente")
+            Text(stringResource(R.string.select_subclient))
         },
         backgroundColor = MaterialTheme.colors.primarySurface,
         navigationIcon = {
