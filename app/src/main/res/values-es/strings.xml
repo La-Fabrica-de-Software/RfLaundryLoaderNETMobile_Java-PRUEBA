@@ -79,6 +79,7 @@
     <string name="language_section">Idioma</string>
     <string name="language_english">English</string>
     <string name="language_spanish">Español</string>
+    <string name="language_chinese">中文</string>
 
     <!-- Elementos de la lista de prendas -->
     <string name="unidentified">Sin identificar</string>

@@ -137,7 +137,13 @@ fun ConfiguracionScreen(
 
             var selectedLanguage by remember {
                 val tag = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-                mutableStateOf(if (tag.startsWith("es")) "es" else "en")
+                mutableStateOf(
+                    when {
+                        tag.startsWith("es") -> "es"
+                        tag.startsWith("zh") -> "zh"
+                        else -> "en"
+                    }
+                )
             }
 
             Text(
@@ -161,6 +167,15 @@ fun ConfiguracionScreen(
                     onSelect = {
                         selectedLanguage = "es"
                         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("es"))
+                    }
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                DefaultRadioButton(
+                    text = stringResource(R.string.language_chinese),
+                    selected = selectedLanguage == "zh",
+                    onSelect = {
+                        selectedLanguage = "zh"
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("zh"))
                     }
                 )
             }
