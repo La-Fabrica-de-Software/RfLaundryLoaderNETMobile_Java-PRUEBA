@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">RFID Laundry</string>
+    <string name="title_activity_busqueda_prendas">服装搜索</string>
+
+    <!-- 屏幕标题 -->
+    <string name="screen_splash">启动画面</string>
+    <string name="screen_lectura_prendas">服装读取</string>
+    <string name="screen_busqueda_prendas">服装搜索</string>
+    <string name="screen_asignacion_prendas">服装分配</string>
+    <string name="screen_configuracion">设置</string>
+    <string name="screen_sincronizacion">数据同步</string>
+    <string name="screen_acerca_de">关于</string>
+
+    <!-- 启动画面 -->
+    <string name="splash_logo">启动画面Logo</string>
+    <string name="loading">加载中\u2026</string>
+
+    <!-- 关于页面 -->
+    <string name="about_description">La Fábrica de Software 是一家工程公司，专注于开发与我们的设备和机器相结合的综合信息系统，用于医院、工厂、工业洗衣店、干洗店等的自动化管理和纺织品控制。\n\n我们拥有专门从事研究和开发创新解决方案的合格人员，旨在满足每位客户的特定需求。\n\n我们每天努力利用RFID技术在大批量物品的识别和管理方面的所有优势，为医院、社会卫生中心、洗衣店及其他社区（工业、酒店、健身房等）的流程提供更高的效率和效益。</string>
+    <string name="logo_description">Logo</string>
+
+    <!-- 通用对话框 -->
+    <string name="dialog_information">信息</string>
+    <string name="btn_close">关闭</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_accept">确认</string>
+    <string name="please_wait">请稍候\u2026</string>
+
+    <!-- 动作对话框 -->
+    <string name="dialog_select_movement">选择动作</string>
+
+    <!-- 导航 / 顶部栏 -->
+    <string name="show_menu">显示菜单</string>
+    <string name="action_ungroup">取消分组</string>
+    <string name="action_group">分组</string>
+    <string name="action_delete_reading">删除读取</string>
+    <string name="action_search">搜索</string>
+    <string name="action_filter">筛选</string>
+    <string name="action_settings">设置</string>
+
+    <!-- 服装读取 -->
+    <string name="btn_generate_movements">生成动作</string>
+    <string name="readings_count">读取次数：%1$d</string>
+    <string name="unique_count">唯一：%1$d</string>
+    <string name="to_check_count">待验证：%1$d</string>
+    <string name="waiting_reading">等待读取</string>
+    <string name="no_connection">无连接</string>
+
+    <!-- 服装分配 -->
+    <string name="dialog_assignment_title">服装分配</string>
+    <string name="dialog_assignment_done_title">分配完成</string>
+    <string name="btn_assign_garments">分配服装</string>
+
+    <!-- 服装搜索 -->
+    <string name="select_client">选择客户</string>
+    <string name="select_subclient">选择子客户</string>
+    <string name="garments_title">服装</string>
+    <string name="listing_clients">列出客户\u2026</string>
+    <string name="listing_subclients">列出子客户\u2026</string>
+    <string name="listing_garments">列出服装\u2026</string>
+
+    <!-- 导航抽屉 -->
+    <string name="company_name">La Fábrica de Software</string>
+
+    <!-- 配置 -->
+    <string name="db_connection_section">数据库连接</string>
+    <string name="label_server">*服务器</string>
+    <string name="label_port">*端口</string>
+    <string name="label_database">*数据库名称</string>
+    <string name="label_username">*用户名</string>
+    <string name="label_password">*密码</string>
+    <string name="other_settings_section">其他设置</string>
+    <string name="label_client_id">客户ID</string>
+    <string name="label_workstation_id">*工作站ID</string>
+    <string name="label_online_only">仅在线工作</string>
+    <string name="label_read_barcode">读取条形码</string>
+    <string name="btn_test_config">测试配置</string>
+    <string name="btn_clear_all">清除全部</string>
+    <string name="language_section">语言</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_chinese">中文</string>
+
+    <!-- 服装列表项 -->
+    <string name="unidentified">未识别</string>
+    <string name="total_count">总计：%1$d</string>
+</resources>
