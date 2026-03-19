@@ -1,6 +1,7 @@
 package com.lafabricadesoftware.rfidlaundry.presentation.configuracion
 
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.foundation.background
@@ -17,9 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.lafabricadesoftware.rfidlaundry.R
+import com.lafabricadesoftware.rfidlaundry.presentation.common.components.DefaultRadioButton
 import com.lafabricadesoftware.rfidlaundry.presentation.configuracion.components.TopBarConfiguracion
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasEvent
 import kotlinx.coroutines.CoroutineScope
@@ -131,6 +134,36 @@ fun ConfiguracionScreen(
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = MaterialTheme.colors.primary
                     )
+                )
+            }
+
+            var selectedLanguage by remember {
+                val tag = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+                mutableStateOf(if (tag.startsWith("es")) "es" else "en")
+            }
+
+            Text(
+                modifier = Modifier.padding(5.dp, 10.dp, 5.dp, 0.dp),
+                text = stringResource(R.string.language_section),
+                color = MaterialTheme.colors.primary
+            )
+            Row(modifier = Modifier.fillMaxWidth().padding(5.dp, 5.dp, 5.dp, 0.dp)) {
+                DefaultRadioButton(
+                    text = stringResource(R.string.language_english),
+                    selected = selectedLanguage == "en",
+                    onSelect = {
+                        selectedLanguage = "en"
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+                    }
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                DefaultRadioButton(
+                    text = stringResource(R.string.language_spanish),
+                    selected = selectedLanguage == "es",
+                    onSelect = {
+                        selectedLanguage = "es"
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("es"))
+                    }
                 )
             }
         }

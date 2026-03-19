@@ -76,6 +76,9 @@
     <string name="label_read_barcode">Leer códigos de barra</string>
     <string name="btn_test_config">Probar configuración</string>
     <string name="btn_clear_all">Borrar todo</string>
+    <string name="language_section">Idioma</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
 
     <!-- Elementos de la lista de prendas -->
     <string name="unidentified">Sin identificar</string>

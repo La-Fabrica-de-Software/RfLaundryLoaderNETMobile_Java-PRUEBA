@@ -76,6 +76,9 @@
     <string name="label_read_barcode">Read barcodes</string>
     <string name="btn_test_config">Test configuration</string>
     <string name="btn_clear_all">Clear all</string>
+    <string name="language_section">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
 
     <!-- Garment list items -->
     <string name="unidentified">Unidentified</string>
