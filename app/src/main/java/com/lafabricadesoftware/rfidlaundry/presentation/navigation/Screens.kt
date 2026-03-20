@@ -22,6 +22,8 @@ sealed class Screens(
 
     object LecturaPrendas: Screens("lectura_prendas_screen", Icons.Filled.List, R.string.screen_lectura_prendas)
 
+    object BuscarPrenda: Screens("buscar_prenda_screen", Icons.Filled.Search, R.string.screen_buscar_prenda)
+
     object BusquedaPrendasCliente: Screens("busqueda_prendas_cliente_screen", Icons.Filled.ManageSearch, R.string.screen_busqueda_prendas)
     object BusquedaPrendasSubCliente: Screens("busqueda_prendas_subcliente_screen/{cliente}", Icons.Filled.Error, R.string.screen_busqueda_prendas) {
         fun passCliente(cliente: String): String { return "busqueda_prendas_subcliente_screen/$cliente" }

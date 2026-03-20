@@ -11,6 +11,8 @@ import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.Asign
 import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignarPrendasScreen
 import com.lafabricadesoftware.rfidlaundry.presentation.configuracion.ConfiguracionScreen
 import com.lafabricadesoftware.rfidlaundry.presentation.configuracion.ConfiguracionViewModel
+import com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda.BuscarPrendaScreen
+import com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda.BuscarPrendaViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasScreen
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +24,8 @@ fun NavigationDrawerNavigation(
     scaffoldState: ScaffoldState,
     navController: NavHostController,
     lecturaPrendasViewModel: LecturaPrendasViewModel,
-    asignacionPrendasViewModel: AsignacionPrendasViewModel
+    asignacionPrendasViewModel: AsignacionPrendasViewModel,
+    buscarPrendaViewModel: BuscarPrendaViewModel
 ){
     NavHost(
         navController,
@@ -31,6 +34,10 @@ fun NavigationDrawerNavigation(
 
         composable(Screens.LecturaPrendas.route){
             LecturaPrendasScreen(navController, scope, scaffoldState, lecturaPrendasViewModel)
+        }
+
+        composable(Screens.BuscarPrenda.route){
+            BuscarPrendaScreen(scope, scaffoldState, buscarPrendaViewModel)
         }
 
         busquedaPrendasNavigation(navController, scope, scaffoldState)

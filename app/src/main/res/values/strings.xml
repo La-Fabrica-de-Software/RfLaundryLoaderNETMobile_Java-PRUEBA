@@ -6,6 +6,7 @@
     <string name="screen_splash">Splash</string>
     <string name="screen_lectura_prendas">Garment reading</string>
     <string name="screen_busqueda_prendas">Garment search</string>
+    <string name="screen_buscar_prenda">Search garment</string>
     <string name="screen_asignacion_prendas">Garment assignment</string>
     <string name="screen_configuracion">Settings</string>
     <string name="screen_sincronizacion">Data synchronization</string>
@@ -58,6 +59,20 @@
     <string name="listing_clients">Listing clients\u2026</string>
     <string name="listing_subclients">Listing subclients\u2026</string>
     <string name="listing_garments">Listing garments\u2026</string>
+
+    <!-- Buscar prenda -->
+    <string name="buscar_prenda_label_usuario">User</string>
+    <string name="buscar_prenda_label_modelo">Model</string>
+    <string name="buscar_prenda_label_talla">Size</string>
+    <string name="buscar_prenda_select_usuario">Select a user</string>
+    <string name="buscar_prenda_select_modelo">Select a model</string>
+    <string name="buscar_prenda_select_talla">Select a size</string>
+    <string name="buscar_prenda_btn_leer">Read</string>
+    <string name="buscar_prenda_btn_parar">Stop</string>
+    <string name="buscar_prenda_reading">Reading\u2026</string>
+    <string name="buscar_prenda_found">&#10003; Garment found!</string>
+    <string name="buscar_prenda_tag">Tag: %1$s</string>
+    <string name="buscar_prenda_waiting">Waiting for reading</string>
 
     <!-- Navigation drawer -->
     <string name="company_name">La Fábrica de Software</string>

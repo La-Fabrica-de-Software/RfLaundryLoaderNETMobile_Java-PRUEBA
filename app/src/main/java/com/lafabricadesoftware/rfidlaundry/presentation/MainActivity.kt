@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignacionPrendasViewModel
+import com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda.BuscarPrendaViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.navigation.SplashNavigation
 import com.lafabricadesoftware.rfidlaundry.presentation.ui.theme.RFIDLaundryTheme
@@ -23,13 +24,14 @@ class MainActivity : AppCompatActivity() {
 
     private val lecturaPrendasViewModel: LecturaPrendasViewModel by viewModels()
     private val asignacionPrendasViewModel: AsignacionPrendasViewModel by viewModels()
+    private val buscarPrendaViewModel: BuscarPrendaViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             RFIDLaundryTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    SplashNavigation(lecturaPrendasViewModel, asignacionPrendasViewModel)
+                    SplashNavigation(lecturaPrendasViewModel, asignacionPrendasViewModel, buscarPrendaViewModel)
                 }
             }
         }
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         if (isFinishing) {
             lecturaPrendasViewModel.freeReader()
+            buscarPrendaViewModel.freeReader()
         }
         super.onDestroy()
     }

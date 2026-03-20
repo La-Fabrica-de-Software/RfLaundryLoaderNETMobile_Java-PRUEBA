@@ -6,6 +6,7 @@
     <string name="screen_splash">Splash</string>
     <string name="screen_lectura_prendas">Lectura de prendas</string>
     <string name="screen_busqueda_prendas">Búsqueda de prendas</string>
+    <string name="screen_buscar_prenda">Buscar prenda</string>
     <string name="screen_asignacion_prendas">Asignación de prendas</string>
     <string name="screen_configuracion">Configuración</string>
     <string name="screen_sincronizacion">Sincronización de datos</string>
@@ -58,6 +59,20 @@
     <string name="listing_clients">Listando clientes\u2026</string>
     <string name="listing_subclients">Listando subclientes\u2026</string>
     <string name="listing_garments">Listando prendas\u2026</string>
+
+    <!-- Buscar prenda -->
+    <string name="buscar_prenda_label_usuario">Usuario</string>
+    <string name="buscar_prenda_label_modelo">Modelo</string>
+    <string name="buscar_prenda_label_talla">Talla</string>
+    <string name="buscar_prenda_select_usuario">Seleccione un usuario</string>
+    <string name="buscar_prenda_select_modelo">Seleccione un modelo</string>
+    <string name="buscar_prenda_select_talla">Seleccione una talla</string>
+    <string name="buscar_prenda_btn_leer">Leer</string>
+    <string name="buscar_prenda_btn_parar">Parar</string>
+    <string name="buscar_prenda_reading">Leyendo\u2026</string>
+    <string name="buscar_prenda_found">&#10003; ¡Prenda encontrada!</string>
+    <string name="buscar_prenda_tag">Tag: %1$s</string>
+    <string name="buscar_prenda_waiting">Esperando lectura</string>
 
     <!-- Menú lateral -->
     <string name="company_name">La Fábrica de Software</string>
