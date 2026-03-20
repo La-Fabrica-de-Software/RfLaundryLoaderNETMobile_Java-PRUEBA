@@ -2,9 +2,9 @@ package com.lafabricadesoftware.rfidlaundry.presentation
 
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -16,7 +16,7 @@ import com.lafabricadesoftware.rfidlaundry.presentation.ui.theme.RFIDLaundryThem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val inventoryFlag = 1
     private var triggerPressed = false
