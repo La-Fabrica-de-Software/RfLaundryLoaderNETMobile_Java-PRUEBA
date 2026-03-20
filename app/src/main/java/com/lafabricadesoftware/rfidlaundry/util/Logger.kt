@@ -12,19 +12,10 @@ class Logger() {
 }
 
 
-enum class MessageType {
+enum class MessageType(private val printableName: String? = null) {
     Error("ERRO"),
     Warning("WARN"),
     Information("INFO");
-
-    private var printableName: String? = null
-
-    constructor()
-    constructor(
-        printableName: String
-    ) {
-        this.printableName = printableName
-    }
 
     fun getAntennaModelName(): String? {
         return printableName
