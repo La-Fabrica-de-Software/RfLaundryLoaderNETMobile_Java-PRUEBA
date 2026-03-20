@@ -1,6 +1,6 @@
 package com.lafabricadesoftware.rfidlaundry.domain.util
 
-enum class AntennaType {
+enum class AntennaType(private val realId: Int? = null, private val printableName: String? = null) {
     AltaPrenda(0, "Alta"),
     Entrada(1, "Entrada"),
     Salida(2, "Salida"),
@@ -9,17 +9,6 @@ enum class AntennaType {
     CambioEtiqueta(7,"Cambio etiqueta"),
     SalidaAlmacen(9, "Salida almacén"),
     Baja(10, "Baja");
-
-    private var realId: Int? = null
-    private var printableName: String? = null
-
-    constructor()
-    constructor(
-        realId: Int, printableName: String
-    ) {
-        this.realId = realId
-        this.printableName = printableName
-    }
 
     fun getAntennaTypeNumberAsNumber(): Int? {
         return realId
