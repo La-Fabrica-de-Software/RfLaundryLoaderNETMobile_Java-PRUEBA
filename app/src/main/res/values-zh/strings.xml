@@ -6,6 +6,7 @@
     <string name="screen_splash">启动画面</string>
     <string name="screen_lectura_prendas">服装读取</string>
     <string name="screen_busqueda_prendas">服装搜索</string>
+    <string name="screen_buscar_prenda">查找服装</string>
     <string name="screen_asignacion_prendas">服装分配</string>
     <string name="screen_configuracion">设置</string>
     <string name="screen_sincronizacion">数据同步</string>
@@ -58,6 +59,20 @@
     <string name="listing_clients">列出客户\u2026</string>
     <string name="listing_subclients">列出子客户\u2026</string>
     <string name="listing_garments">列出服装\u2026</string>
+
+    <!-- 查找服装 -->
+    <string name="buscar_prenda_label_usuario">用户</string>
+    <string name="buscar_prenda_label_modelo">型号</string>
+    <string name="buscar_prenda_label_talla">尺码</string>
+    <string name="buscar_prenda_select_usuario">选择用户</string>
+    <string name="buscar_prenda_select_modelo">选择型号</string>
+    <string name="buscar_prenda_select_talla">选择尺码</string>
+    <string name="buscar_prenda_btn_leer">读取</string>
+    <string name="buscar_prenda_btn_parar">停止</string>
+    <string name="buscar_prenda_reading">读取中\u2026</string>
+    <string name="buscar_prenda_found">&#10003; 找到服装！</string>
+    <string name="buscar_prenda_tag">标签：%1$s</string>
+    <string name="buscar_prenda_waiting">等待读取</string>
 
     <!-- 导航抽屉 -->
     <string name="company_name">La Fábrica de Software</string>

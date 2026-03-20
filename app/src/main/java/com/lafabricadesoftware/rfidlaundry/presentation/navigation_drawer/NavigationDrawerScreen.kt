@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.GetConfiguracion
 import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignacionPrendasViewModel
+import com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda.BuscarPrendaViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.navigation.NavigationDrawerNavigation
 import com.lafabricadesoftware.rfidlaundry.presentation.navigation.Screens
@@ -29,7 +30,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun NavigationDrawerScreen(
     lecturaPrendasViewModel: LecturaPrendasViewModel,
-    asignacionPrendasViewModel: AsignacionPrendasViewModel
+    asignacionPrendasViewModel: AsignacionPrendasViewModel,
+    buscarPrendaViewModel: BuscarPrendaViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -42,7 +44,7 @@ fun NavigationDrawerScreen(
             NavigationDrawerContentScreen(scope, scaffoldState, navController)
         }
     ) {
-        NavigationDrawerNavigation(scope, scaffoldState, navController, lecturaPrendasViewModel, asignacionPrendasViewModel)
+        NavigationDrawerNavigation(scope, scaffoldState, navController, lecturaPrendasViewModel, asignacionPrendasViewModel, buscarPrendaViewModel)
     }
 }
 
@@ -69,6 +71,7 @@ fun NavigationDrawerContentScreen(
 
         val menuItems = listOf(
             Screens.LecturaPrendas,
+            Screens.BuscarPrenda,
             //Screens.BusquedaPrendasCliente,
             //Screens.AsignacionPrendas,
             Screens.Configuracion,

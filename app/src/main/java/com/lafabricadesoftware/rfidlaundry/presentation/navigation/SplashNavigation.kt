@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas.AsignacionPrendasViewModel
+import com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda.BuscarPrendaViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas.LecturaPrendasViewModel
 import com.lafabricadesoftware.rfidlaundry.presentation.navigation_drawer.NavigationDrawerScreen
 import com.lafabricadesoftware.rfidlaundry.presentation.splash.SplashScreen
@@ -12,7 +13,8 @@ import com.lafabricadesoftware.rfidlaundry.presentation.splash.SplashScreen
 @Composable
 fun SplashNavigation(
     lecturaPrendasViewModel: LecturaPrendasViewModel,
-    asignacionPrendasViewModel: AsignacionPrendasViewModel
+    asignacionPrendasViewModel: AsignacionPrendasViewModel,
+    buscarPrendaViewModel: BuscarPrendaViewModel
 ) {
 
     val navController = rememberNavController()
@@ -26,7 +28,7 @@ fun SplashNavigation(
             SplashScreen(navController)
         }
         composable(Screens.Main.route) {
-            NavigationDrawerScreen(lecturaPrendasViewModel, asignacionPrendasViewModel)
+            NavigationDrawerScreen(lecturaPrendasViewModel, asignacionPrendasViewModel, buscarPrendaViewModel)
         }
     }
 }
