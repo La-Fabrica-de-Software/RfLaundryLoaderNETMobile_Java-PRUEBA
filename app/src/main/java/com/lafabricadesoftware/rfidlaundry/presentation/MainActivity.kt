@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
     override fun onDestroy() {
-        lecturaPrendasViewModel.freeReader()
+        if (isFinishing) {
+            lecturaPrendasViewModel.freeReader()
+        }
         super.onDestroy()
     }
 
