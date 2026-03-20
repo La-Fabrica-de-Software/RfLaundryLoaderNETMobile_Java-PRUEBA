@@ -251,27 +251,32 @@ private fun FilterDropdown(
                         contentDescription = null
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(enabled = enabled && items.isNotEmpty()) { expanded = true },
+                modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     disabledTextColor = Color.Gray,
                     disabledBorderColor = Color.LightGray
                 )
             )
-            if (enabled && items.isNotEmpty()) {
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    items.forEachIndexed { index, item ->
-                        DropdownMenuItem(
-                            onClick = {
-                                onItemSelected(index)
-                                expanded = false
+            if (enabled) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .clickable(enabled = items.isNotEmpty()) { expanded = true }
+                )
+                if (items.isNotEmpty()) {
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        items.forEachIndexed { index, item ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    onItemSelected(index)
+                                    expanded = false
+                                }
+                            ) {
+                                Text(item)
                             }
-                        ) {
-                            Text(item)
                         }
                     }
                 }
