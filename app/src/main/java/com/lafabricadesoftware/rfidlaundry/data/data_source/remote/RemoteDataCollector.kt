@@ -3,7 +3,6 @@ package com.lafabricadesoftware.rfidlaundry.data.data_source.remote
 import com.lafabricadesoftware.rfidlaundry.data.data_source.HikariCPDataSource
 import com.lafabricadesoftware.rfidlaundry.domain.model.*
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.LecturaPrendaClienteSubCliente
-import java.sql.SQLException
 import java.sql.Types
 import javax.inject.Inject
 
@@ -57,7 +56,7 @@ class RemoteDataCollector @Inject constructor() {
             connection.close()
             println("----- testConnection: OK!")
             true
-        } catch (e: SQLException) {
+        } catch (e: Exception) {
             println("----- testConnection: ${e.message}")
             false
         }
