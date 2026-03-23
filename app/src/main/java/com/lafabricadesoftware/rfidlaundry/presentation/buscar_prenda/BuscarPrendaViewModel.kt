@@ -1,5 +1,6 @@
 package com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda
 
+import android.content.Context
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Handler
@@ -16,6 +17,7 @@ import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.TestConn
 import com.rscja.deviceapi.RFIDWithUHFUART
 import com.rscja.deviceapi.entity.UHFTAGInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BuscarPrendaViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val localRepository: LocalRepository,
     private val getConfiguracion: GetConfiguracion,
     private val initConnectionRemote: InitConnectionRemote,
@@ -67,7 +70,7 @@ class BuscarPrendaViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     try {
                         _reader?.setEPCMode()
-                        _reader?.init()
+                        _reader?.init(context)
                         println("+++++ BuscarPrenda initReader - Reader init OK +++++")
                     } catch (e: Exception) {
                         println("----- BuscarPrenda initReader - Reader init exception: ${e.message}")

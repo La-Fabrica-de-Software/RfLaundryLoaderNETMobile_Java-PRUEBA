@@ -1,5 +1,6 @@
 package com.lafabricadesoftware.rfidlaundry.presentation.lectura_prendas
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ import com.lafabricadesoftware.rfidlaundry.util.DateTimeUtils
 import com.rscja.deviceapi.RFIDWithUHFUART
 import com.rscja.deviceapi.entity.UHFTAGInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LecturaPrendasViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val localRepository: LocalRepository,
     private val getConfiguracion: GetConfiguracion,
     private val getPrendaClienteSubClienteByTagCommon: GetPrendaClienteSubClienteByTagCommon,
@@ -35,7 +38,6 @@ class LecturaPrendasViewModel @Inject constructor(
     private val testConnectionRemote: TestConnectionRemote,
     private val setMovPrenCommon: SetMovPrenCommon
 //    private val getLastMovPrenByIdPrendaCommon: GetLastMovPrenByIdPrendaCommon
-//    private val context: Context
 ) : ViewModel() {
 
     //region Variables
@@ -154,7 +156,7 @@ class LecturaPrendasViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     try {
                         if (_inventoryFlag == 1) { _reader?.setEPCMode() }
-                        _reader?.init()
+                        _reader?.init(context)
                         println("+++++ initReader - Reader init OK +++++")
                     } catch (e: Exception) {
                         println("----- initReader - Reader init exception: ${e.message}")
