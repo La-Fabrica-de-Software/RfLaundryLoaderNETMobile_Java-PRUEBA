@@ -150,6 +150,17 @@ class AsignacionPrendasViewModel @Inject constructor(
             }
         }
     }
+    fun reinitReader() {
+        initReader(1)
+    }
+    fun freeReader() {
+        try {
+            _reader?.free()
+            println("+++++ AsignacionPrendas freeReader OK +++++")
+        } catch (e: Exception) {
+            println("----- AsignacionPrendas freeReader exception: ${e.message}")
+        }
+    }
     //endregion
 
     //region Inventory
@@ -285,8 +296,9 @@ class AsignacionPrendasViewModel @Inject constructor(
     }
     private fun scan() {
         println("* * * * * Scanning")
-        _barcode.value = _scanner.scan().toString()
-        if (_barcode.value.isNotEmpty()) {
+        val scanResult = _scanner.scan()
+        if (scanResult != null && scanResult.isNotEmpty()) {
+            _barcode.value = scanResult
             println("* * * * * Barcode OK")
             onEvent(AsignacionPrendasEvent.EnteredBarcode(_barcode.value))
             stopScan(true)

@@ -165,6 +165,9 @@ class LecturaPrendasViewModel @Inject constructor(
             }
         }
     }
+    fun reinitReader() {
+        initReader(1)
+    }
     fun freeReader() {
         try {
             _reader?.free()

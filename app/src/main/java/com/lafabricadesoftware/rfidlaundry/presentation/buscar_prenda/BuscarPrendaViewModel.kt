@@ -80,6 +80,10 @@ class BuscarPrendaViewModel @Inject constructor(
         }
     }
 
+    fun reinitReader() {
+        initReader()
+    }
+
     fun freeReader() {
         try {
             _reader?.free()
