@@ -344,14 +344,25 @@ class AsignacionPrendasViewModel @Inject constructor(
     //region Jobs
     private fun testConnectionJob(): Job {
         return viewModelScope.launch(Dispatchers.IO) {
-            initConnectionRemote(getConfiguracion())
-            val testConnResult = testConnectionRemote()
-            withContext(Dispatchers.Main) {
-                _uiState.value = _uiState.value.copy(
-                    connectionStatus = testConnResult,
-                    showLoadingMessage = false,
-                    showMessage = false
-                )
+            try {
+                initConnectionRemote(getConfiguracion())
+                val testConnResult = testConnectionRemote()
+                withContext(Dispatchers.Main) {
+                    _uiState.value = _uiState.value.copy(
+                        connectionStatus = testConnResult,
+                        showLoadingMessage = false,
+                        showMessage = false
+                    )
+                }
+            } catch (e: Exception) {
+                println("----- AsignacionPrendas testConnectionJob exception: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    _uiState.value = _uiState.value.copy(
+                        connectionStatus = false,
+                        showLoadingMessage = false,
+                        showMessage = false
+                    )
+                }
             }
         }
     }

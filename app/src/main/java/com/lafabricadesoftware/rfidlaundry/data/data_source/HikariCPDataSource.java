@@ -58,7 +58,9 @@ public class HikariCPDataSource {
         Configuracion actualConfig = new Configuracion();
 
         if (HikariCPDataSource.config != config) {
-            actualConfig = HikariCPDataSource.config;
+            if (HikariCPDataSource.config != null) {
+                actualConfig = HikariCPDataSource.config;
+            }
             singleton = null;
         }
         if (singleton != null)
@@ -67,19 +69,25 @@ public class HikariCPDataSource {
         }
         try {
             singleton = new HikariCPDataSource(config);
-            if (onlyTest && !actualConfig.getServer().equals("")) {
+            if (onlyTest && !actualConfig.getServer().isEmpty()) {
                 singleton = null;
                 singleton = new HikariCPDataSource(actualConfig);
             }
         } catch(Exception e) {
-            singleton = new HikariCPDataSource(actualConfig);
+            if (actualConfig != null && !actualConfig.getServer().isEmpty()) {
+                try {
+                    singleton = new HikariCPDataSource(actualConfig);
+                } catch (Exception ex) {
+                    System.out.println("----- HikariCPDataSource: could not restore previous config: " + ex.getMessage());
+                }
+            }
             errorInConnection = true;
         }
         return singleton;
     }
     public static Connection getConnection() throws Exception {
         if (singleton == null) {
-            throw new AssertionError("----- You have to call HikariCPDataSource init first.");
+            throw new Exception("----- You have to call HikariCPDataSource init first.");
         }
         return hDataSource.getConnection();
     }
