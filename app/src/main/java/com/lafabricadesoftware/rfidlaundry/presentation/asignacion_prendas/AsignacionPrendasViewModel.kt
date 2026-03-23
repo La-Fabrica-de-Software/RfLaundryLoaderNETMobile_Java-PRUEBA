@@ -1,5 +1,6 @@
 package com.lafabricadesoftware.rfidlaundry.presentation.asignacion_prendas
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ import com.rscja.deviceapi.exception.ConfigurationException;
 import com.rscja.deviceapi.RFIDWithUHFUART
 import com.rscja.deviceapi.entity.UHFTAGInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AsignacionPrendasViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val getConfiguracion: GetConfiguracion,
     private val getPrendaClienteSubClienteByTagCommon: GetPrendaClienteSubClienteByTagCommon,
     private val initConnectionRemote: InitConnectionRemote,
@@ -132,6 +135,19 @@ class AsignacionPrendasViewModel @Inject constructor(
         } catch (e: Exception) {
             println("----- initReader - Reader instance exception: ${e.message}")
             return
+        }
+        if (_reader != null) {
+            viewModelScope.launch {
+                withContext(Dispatchers.Main) {
+                    try {
+                        if (_inventoryFlag == 1) { _reader?.setEPCMode() }
+                        _reader?.init(context)
+                        println("+++++ initReader - Reader init OK +++++")
+                    } catch (e: Exception) {
+                        println("----- initReader - Reader init exception: ${e.message}")
+                    }
+                }
+            }
         }
     }
     //endregion
@@ -258,7 +274,7 @@ class AsignacionPrendasViewModel @Inject constructor(
 
     //region Scan
     fun startScan() {
-        _scanner.open()
+        _scanner.open(context)
         if (!_isScanning) {
             println("* * * * * Start/open scan")
             _isScanning = true
