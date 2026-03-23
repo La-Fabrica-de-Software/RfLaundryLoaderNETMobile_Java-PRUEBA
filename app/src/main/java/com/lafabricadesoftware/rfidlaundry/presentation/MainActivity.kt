@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
         val allGranted = permissions.values.all { it }
         if (allGranted) {
             println("+++++ Bluetooth permissions granted +++++")
+            // Re-initialize readers now that Bluetooth permissions are available.
+            // The Chainway DeviceAPI SDK requires these permissions to open the UART
+            // hardware on Android 12+. Without this re-init the first-launch readers
+            // remain in a failed state even after the user grants the permissions.
+            reinitAllReaders()
         } else {
             println("----- Bluetooth permissions denied -----")
         }
@@ -75,12 +80,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        if (isFinishing) {
-            lecturaPrendasViewModel.freeReader()
-            buscarPrendaViewModel.freeReader()
+    private fun areBluetoothPermissionsGranted(): Boolean {
+        // On Android 11 and below no Bluetooth runtime permissions are required.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return true
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) ==
+                PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Following the Chainway DeviceAPI recommended lifecycle pattern:
+        // initialize the hardware reader every time the activity becomes active
+        // so it is always in a fresh, working state (critical on Android 13).
+        // Only reinit when the required Bluetooth permissions are already granted;
+        // if they are still pending, the bluetoothPermissionLauncher callback will
+        // call reinitAllReaders() once the user grants them.
+        if (areBluetoothPermissionsGranted()) {
+            reinitAllReaders()
         }
-        super.onDestroy()
+    }
+
+    override fun onPause() {
+        // Release the hardware reader whenever the activity is no longer in the
+        // foreground, matching the Chainway DeviceAPI recommended lifecycle.
+        freeAllReaders()
+        super.onPause()
+    }
+
+    private fun reinitAllReaders() {
+        lecturaPrendasViewModel.reinitReader()
+        buscarPrendaViewModel.reinitReader()
+        asignacionPrendasViewModel.reinitReader()
+    }
+
+    private fun freeAllReaders() {
+        lecturaPrendasViewModel.freeReader()
+        buscarPrendaViewModel.freeReader()
+        asignacionPrendasViewModel.freeReader()
     }
 
     //region KEY PRESS
