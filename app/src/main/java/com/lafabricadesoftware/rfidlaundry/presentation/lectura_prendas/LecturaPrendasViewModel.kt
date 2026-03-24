@@ -156,8 +156,12 @@ class LecturaPrendasViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     try {
                         if (_inventoryFlag == 1) { _reader?.setEPCMode() }
-                        _reader?.init(context)
-                        println("+++++ initReader - Reader init OK +++++")
+                        val initOk = _reader?.init(context) ?: false
+                        if (initOk) {
+                            println("+++++ initReader - Reader init OK +++++")
+                        } else {
+                            println("----- initReader - Reader init returned false")
+                        }
                     } catch (e: Exception) {
                         println("----- initReader - Reader init exception: ${e.message}")
                     }

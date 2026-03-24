@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         if (!triggerPressed) {
             if (keyCode == 139 || keyCode == 280) {
                 println("----- onKeyDown. KeyCode: $keyCode -----")
-                triggerPressed = false
+                triggerPressed = true
                 asignacionPrendasViewModel.startScan()
             } else if (keyCode == 293) {
                 println("----- onKeyDown. KeyCode: $keyCode -----")
@@ -147,6 +147,10 @@ class MainActivity : AppCompatActivity() {
                 lecturaPrendasViewModel.stopInventory()
 //                asignacionPrendasViewModel.stopInventory()
             }
+            triggerPressed = false
+        }
+        if (keyCode == 139 || keyCode == 280) {
+            println("----- onKeyUp. KeyCode: $keyCode -----")
             triggerPressed = false
         }
         return super.onKeyUp(keyCode, event)

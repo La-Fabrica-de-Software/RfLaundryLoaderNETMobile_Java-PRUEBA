@@ -70,8 +70,12 @@ class BuscarPrendaViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     try {
                         _reader?.setEPCMode()
-                        _reader?.init(context)
-                        println("+++++ BuscarPrenda initReader - Reader init OK +++++")
+                        val initOk = _reader?.init(context) ?: false
+                        if (initOk) {
+                            println("+++++ BuscarPrenda initReader - Reader init OK +++++")
+                        } else {
+                            println("----- BuscarPrenda initReader - Reader init returned false")
+                        }
                     } catch (e: Exception) {
                         println("----- BuscarPrenda initReader - Reader init exception: ${e.message}")
                     }
