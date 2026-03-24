@@ -141,8 +141,12 @@ class AsignacionPrendasViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     try {
                         if (_inventoryFlag == 1) { _reader?.setEPCMode() }
-                        _reader?.init(context)
-                        println("+++++ initReader - Reader init OK +++++")
+                        val initOk = _reader?.init(context) ?: false
+                        if (initOk) {
+                            println("+++++ initReader - Reader init OK +++++")
+                        } else {
+                            println("----- initReader - Reader init returned false")
+                        }
                     } catch (e: Exception) {
                         println("----- initReader - Reader init exception: ${e.message}")
                     }
@@ -304,8 +308,22 @@ class AsignacionPrendasViewModel @Inject constructor(
             println("----- startScan - Scanner still not initialized, aborting scan")
             return
         }
-        _scanner.open(context)
         if (!_isScanning) {
+            try {
+                val opened = _scanner.open(context)
+                if (!opened) {
+                    println("----- startScan - Scanner open() returned false, attempting reinit")
+                    reinitScanner()
+                    val retried = _scanner.open(context)
+                    if (!retried) {
+                        println("----- startScan - Scanner open() still false after reinit, aborting scan")
+                        return
+                    }
+                }
+            } catch (e: Exception) {
+                println("----- startScan - Scanner open() exception: ${e.message}")
+                return
+            }
             println("* * * * * Start/open scan")
             _isScanning = true
             _verifyBarcodeTime = 0
