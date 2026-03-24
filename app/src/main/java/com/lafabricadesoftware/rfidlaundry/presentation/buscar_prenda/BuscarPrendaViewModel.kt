@@ -51,7 +51,7 @@ class BuscarPrendaViewModel @Inject constructor(
     init {
         initReader()
         testConnectionJob = testConnectionJob()
-        onEvent(BuscarPrendaEvent.LoadClientes)
+        loadInitialData()
     }
 
     //region Reader
@@ -274,6 +274,32 @@ class BuscarPrendaViewModel @Inject constructor(
     //endregion
 
     //region Load data
+
+    private fun loadInitialData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val config = getConfiguracion()
+                if (config.clientId > 0) {
+                    val cliente = localRepository.getClienteById(config.clientId)
+                    val subClientes = localRepository.getSubClientes(cliente.id)
+                        .filter { !it.Borrado }
+                        .sortedBy { it.Nombre }
+                    withContext(Dispatchers.Main) {
+                        _uiState.value = _uiState.value.copy(
+                            selectedCliente = cliente,
+                            clientePreConfigurado = true,
+                            listSubClientes = subClientes
+                        )
+                    }
+                } else {
+                    loadClientes()
+                }
+            } catch (e: Exception) {
+                println("----- BuscarPrenda loadInitialData exception: ${e.message}")
+                loadClientes()
+            }
+        }
+    }
 
     private fun loadClientes() {
         viewModelScope.launch(Dispatchers.IO) {

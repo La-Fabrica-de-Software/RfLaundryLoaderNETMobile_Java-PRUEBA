@@ -19,6 +19,8 @@ data class BuscarPrendaState(
     val prendaEncontrada: Boolean = false,
     val tagEncontrado: String = "",
 
+    val clientePreConfigurado: Boolean = false,
+
     val showLoading: Boolean = false,
     val loadingMessage: String = "",
     val showMessage: Boolean = false,
