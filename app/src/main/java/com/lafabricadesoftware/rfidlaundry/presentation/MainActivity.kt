@@ -113,12 +113,14 @@ class MainActivity : AppCompatActivity() {
         lecturaPrendasViewModel.reinitReader()
         buscarPrendaViewModel.reinitReader()
         asignacionPrendasViewModel.reinitReader()
+        asignacionPrendasViewModel.reinitScanner()
     }
 
     private fun freeAllReaders() {
         lecturaPrendasViewModel.freeReader()
         buscarPrendaViewModel.freeReader()
         asignacionPrendasViewModel.freeReader()
+        asignacionPrendasViewModel.freeScanner()
     }
 
     //region KEY PRESS

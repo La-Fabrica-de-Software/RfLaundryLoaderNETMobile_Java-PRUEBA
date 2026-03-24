@@ -126,7 +126,7 @@ class AsignacionPrendasViewModel @Inject constructor(
     //region Reader
     private fun initReader(inventoryFlag: Int) {
         stopInventory()
-//        freeReader()
+        freeReader()
         _inventoryFlag = inventoryFlag
 
         try {
@@ -278,13 +278,32 @@ class AsignacionPrendasViewModel @Inject constructor(
 
 
     }
-    private fun freeScanner() {
-        _scanner?.close()
+    fun freeScanner() {
+        try {
+            if (::_scanner.isInitialized) {
+                _scanner.close()
+                println("+++++ AsignacionPrendas freeScanner OK +++++")
+            }
+        } catch (e: Exception) {
+            println("----- AsignacionPrendas freeScanner exception: ${e.message}")
+        }
+    }
+    fun reinitScanner() {
+        freeScanner()
+        initScanner()
     }
     //endregion
 
     //region Scan
     fun startScan() {
+        if (!::_scanner.isInitialized) {
+            println("----- startScan - Scanner not initialized, attempting reinit +++++")
+            initScanner()
+        }
+        if (!::_scanner.isInitialized) {
+            println("----- startScan - Scanner still not initialized, aborting scan")
+            return
+        }
         _scanner.open(context)
         if (!_isScanning) {
             println("* * * * * Start/open scan")
