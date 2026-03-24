@@ -70,11 +70,11 @@ fun BuscarPrendaScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // Usuario (Cliente) dropdown
+            // Cliente dropdown
             FilterDropdown(
-                label = stringResource(R.string.buscar_prenda_label_usuario),
+                label = stringResource(R.string.buscar_prenda_label_cliente),
                 selectedText = uiState.value.selectedCliente?.Nombre
-                    ?: stringResource(R.string.buscar_prenda_select_usuario),
+                    ?: stringResource(R.string.buscar_prenda_select_cliente),
                 items = uiState.value.listClientes.map { it.Nombre },
                 onItemSelected = { idx ->
                     buscarPrendaViewModel.onEvent(
@@ -82,6 +82,20 @@ fun BuscarPrendaScreen(
                     )
                 },
                 enabled = true
+            )
+
+            // Usuario (SubCliente) dropdown
+            FilterDropdown(
+                label = stringResource(R.string.buscar_prenda_label_usuario),
+                selectedText = uiState.value.selectedSubCliente?.Nombre
+                    ?: stringResource(R.string.buscar_prenda_select_usuario),
+                items = uiState.value.listSubClientes.map { it.Nombre },
+                onItemSelected = { idx ->
+                    buscarPrendaViewModel.onEvent(
+                        BuscarPrendaEvent.SelectSubCliente(uiState.value.listSubClientes[idx])
+                    )
+                },
+                enabled = uiState.value.selectedCliente != null
             )
 
             // Modelo dropdown
@@ -95,7 +109,7 @@ fun BuscarPrendaScreen(
                         BuscarPrendaEvent.SelectModelo(uiState.value.listModelos[idx])
                     )
                 },
-                enabled = uiState.value.selectedCliente != null
+                enabled = uiState.value.selectedSubCliente != null
             )
 
             // Talla dropdown
@@ -122,6 +136,7 @@ fun BuscarPrendaScreen(
                     .height(56.dp),
                 enabled = !uiState.value.isReading &&
                         uiState.value.selectedCliente != null &&
+                        uiState.value.selectedSubCliente != null &&
                         uiState.value.selectedModelo != null &&
                         uiState.value.selectedTalla.isNotEmpty(),
                 colors = ButtonDefaults.buttonColors(

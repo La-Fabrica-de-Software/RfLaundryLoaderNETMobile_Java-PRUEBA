@@ -2,13 +2,16 @@ package com.lafabricadesoftware.rfidlaundry.presentation.buscar_prenda
 
 import com.lafabricadesoftware.rfidlaundry.domain.model.MasterClientes
 import com.lafabricadesoftware.rfidlaundry.domain.model.MasterModeloPrenda
+import com.lafabricadesoftware.rfidlaundry.domain.model.MasterSubClientes
 
 data class BuscarPrendaState(
     val listClientes: List<MasterClientes> = emptyList(),
+    val listSubClientes: List<MasterSubClientes> = emptyList(),
     val listModelos: List<MasterModeloPrenda> = emptyList(),
     val listTallas: List<String> = emptyList(),
 
     val selectedCliente: MasterClientes? = null,
+    val selectedSubCliente: MasterSubClientes? = null,
     val selectedModelo: MasterModeloPrenda? = null,
     val selectedTalla: String = "",
 

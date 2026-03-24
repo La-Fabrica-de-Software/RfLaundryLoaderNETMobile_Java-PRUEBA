@@ -61,6 +61,8 @@
     <string name="listing_garments">Listing garments\u2026</string>
 
     <!-- Buscar prenda -->
+    <string name="buscar_prenda_label_cliente">Client</string>
+    <string name="buscar_prenda_select_cliente">Select a client</string>
     <string name="buscar_prenda_label_usuario">User</string>
     <string name="buscar_prenda_label_modelo">Model</string>
     <string name="buscar_prenda_label_talla">Size</string>

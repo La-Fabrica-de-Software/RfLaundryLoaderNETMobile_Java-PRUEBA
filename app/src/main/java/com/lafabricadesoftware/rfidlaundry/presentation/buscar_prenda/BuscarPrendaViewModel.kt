@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.lafabricadesoftware.rfidlaundry.domain.model.MasterClientes
 import com.lafabricadesoftware.rfidlaundry.domain.model.MasterModeloPrenda
 import com.lafabricadesoftware.rfidlaundry.domain.model.MasterPrendas
+import com.lafabricadesoftware.rfidlaundry.domain.model.MasterSubClientes
 import com.lafabricadesoftware.rfidlaundry.domain.repository.LocalRepository
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.GetConfiguracion
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.InitConnectionRemote
@@ -103,6 +104,7 @@ class BuscarPrendaViewModel @Inject constructor(
 
     fun startInventory() {
         if (_uiState.value.selectedCliente == null ||
+            _uiState.value.selectedSubCliente == null ||
             _uiState.value.selectedModelo == null ||
             _uiState.value.selectedTalla.isEmpty()
         ) {
@@ -180,10 +182,12 @@ class BuscarPrendaViewModel @Inject constructor(
 
     private fun matchesFilter(prenda: MasterPrendas): Boolean {
         val selectedCliente = _uiState.value.selectedCliente ?: return false
+        val selectedSubCliente = _uiState.value.selectedSubCliente ?: return false
         val selectedModelo = _uiState.value.selectedModelo ?: return false
         val selectedTalla = _uiState.value.selectedTalla.ifEmpty { return false }
 
         return prenda.id_Cliente == selectedCliente.id &&
+                prenda.id_subCliente == selectedSubCliente.id &&
                 prenda.id_ModeloPrenda == selectedModelo.id &&
                 prenda.Talla == selectedTalla &&
                 !prenda.borrado
@@ -211,14 +215,30 @@ class BuscarPrendaViewModel @Inject constructor(
             is BuscarPrendaEvent.SelectCliente -> {
                 _uiState.value = _uiState.value.copy(
                     selectedCliente = event.cliente,
+                    selectedSubCliente = null,
+                    selectedModelo = null,
+                    selectedTalla = "",
+                    listSubClientes = emptyList(),
+                    listModelos = emptyList(),
+                    listTallas = emptyList(),
+                    prendaEncontrada = false
+                )
+                if (event.cliente != null) {
+                    loadSubClientesForCliente(event.cliente)
+                }
+            }
+            is BuscarPrendaEvent.SelectSubCliente -> {
+                _uiState.value = _uiState.value.copy(
+                    selectedSubCliente = event.subCliente,
                     selectedModelo = null,
                     selectedTalla = "",
                     listModelos = emptyList(),
                     listTallas = emptyList(),
                     prendaEncontrada = false
                 )
-                if (event.cliente != null) {
-                    loadModelosForCliente(event.cliente)
+                val cliente = _uiState.value.selectedCliente
+                if (event.subCliente != null && cliente != null) {
+                    loadModelosForClienteAndSubCliente(event.subCliente)
                 }
             }
             is BuscarPrendaEvent.SelectModelo -> {
@@ -229,8 +249,9 @@ class BuscarPrendaViewModel @Inject constructor(
                     prendaEncontrada = false
                 )
                 val cliente = _uiState.value.selectedCliente
-                if (event.modelo != null && cliente != null) {
-                    loadTallasForClienteAndModelo(cliente, event.modelo)
+                val subCliente = _uiState.value.selectedSubCliente
+                if (event.modelo != null && cliente != null && subCliente != null) {
+                    loadTallasForClienteSubClienteAndModelo(subCliente, event.modelo)
                 }
             }
             is BuscarPrendaEvent.SelectTalla -> {
@@ -269,11 +290,26 @@ class BuscarPrendaViewModel @Inject constructor(
         }
     }
 
-    private fun loadModelosForCliente(cliente: MasterClientes) {
+    private fun loadSubClientesForCliente(cliente: MasterClientes) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val prendas = localRepository.getPrendas(0)
-                    .filter { it.id_Cliente == cliente.id && !it.borrado }
+                val subClientes = localRepository.getSubClientes(cliente.id)
+                    .filter { !it.Borrado }
+                    .sortedBy { it.Nombre }
+                withContext(Dispatchers.Main) {
+                    _uiState.value = _uiState.value.copy(listSubClientes = subClientes)
+                }
+            } catch (e: Exception) {
+                println("----- BuscarPrenda loadSubClientesForCliente exception: ${e.message}")
+            }
+        }
+    }
+
+    private fun loadModelosForClienteAndSubCliente(subCliente: MasterSubClientes) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val prendas = localRepository.getPrendas(subCliente.id)
+                    .filter { !it.borrado }
                 val modeloIds = prendas.map { it.id_ModeloPrenda }.distinct()
                 val modelos = modeloIds.mapNotNull { id ->
                     try {
@@ -286,16 +322,16 @@ class BuscarPrendaViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(listModelos = modelos)
                 }
             } catch (e: Exception) {
-                println("----- BuscarPrenda loadModelosForCliente exception: ${e.message}")
+                println("----- BuscarPrenda loadModelosForClienteAndSubCliente exception: ${e.message}")
             }
         }
     }
 
-    private fun loadTallasForClienteAndModelo(cliente: MasterClientes, modelo: MasterModeloPrenda) {
+    private fun loadTallasForClienteSubClienteAndModelo(subCliente: MasterSubClientes, modelo: MasterModeloPrenda) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val tallas = localRepository.getPrendas(0)
-                    .filter { it.id_Cliente == cliente.id && it.id_ModeloPrenda == modelo.id && !it.borrado }
+                val tallas = localRepository.getPrendas(subCliente.id)
+                    .filter { it.id_ModeloPrenda == modelo.id && !it.borrado }
                     .map { it.Talla }
                     .filter { it.isNotEmpty() }
                     .distinct()
@@ -304,7 +340,7 @@ class BuscarPrendaViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(listTallas = tallas)
                 }
             } catch (e: Exception) {
-                println("----- BuscarPrenda loadTallasForClienteAndModelo exception: ${e.message}")
+                println("----- BuscarPrenda loadTallasForClienteSubClienteAndModelo exception: ${e.message}")
             }
         }
     }
