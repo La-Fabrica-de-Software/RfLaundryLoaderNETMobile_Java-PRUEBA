@@ -70,19 +70,21 @@ fun BuscarPrendaScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // Cliente dropdown
-            FilterDropdown(
-                label = stringResource(R.string.buscar_prenda_label_cliente),
-                selectedText = uiState.value.selectedCliente?.Nombre
-                    ?: stringResource(R.string.buscar_prenda_select_cliente),
-                items = uiState.value.listClientes.map { it.Nombre },
-                onItemSelected = { idx ->
-                    buscarPrendaViewModel.onEvent(
-                        BuscarPrendaEvent.SelectCliente(uiState.value.listClientes[idx])
-                    )
-                },
-                enabled = true
-            )
+            // Cliente dropdown - only show when not pre-configured from settings
+            if (!uiState.value.clientePreConfigurado) {
+                FilterDropdown(
+                    label = stringResource(R.string.buscar_prenda_label_cliente),
+                    selectedText = uiState.value.selectedCliente?.Nombre
+                        ?: stringResource(R.string.buscar_prenda_select_cliente),
+                    items = uiState.value.listClientes.map { it.Nombre },
+                    onItemSelected = { idx ->
+                        buscarPrendaViewModel.onEvent(
+                            BuscarPrendaEvent.SelectCliente(uiState.value.listClientes[idx])
+                        )
+                    },
+                    enabled = true
+                )
+            }
 
             // Usuario (SubCliente) dropdown
             FilterDropdown(
