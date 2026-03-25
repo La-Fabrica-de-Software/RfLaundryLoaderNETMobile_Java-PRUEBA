@@ -102,4 +102,15 @@ interface LocalDao {
     @Query("SELECT * FROM MasterTaquilla WHERE Descripcion = :descripcion ORDER BY Id DESC LIMIT 1")
     suspend fun getTaquillaByDescricion(descripcion: String): MasterTaquilla
     //endregion
+
+    //region MovPrenPendiente
+    @Query("SELECT * FROM MovPrenPendiente ORDER BY id ASC")
+    suspend fun getMovPrenPendientes(): List<MovPrenPendiente>
+    @Query("SELECT COUNT(*) FROM MovPrenPendiente")
+    fun getMovPrenPendientesCountAsFlow(): Flow<Int>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovPrenPendiente(movPren: MovPrenPendiente)
+    @Delete
+    suspend fun deleteMovPrenPendiente(movPren: MovPrenPendiente)
+    //endregion
 }

@@ -11,10 +11,12 @@ import com.lafabricadesoftware.rfidlaundry.domain.repository.LocalRepository
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.antena.GetAntenasByPuestoCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.antena.GetAntenasCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.movpren.SetMovPrenCommon
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.movpren.SyncPendingMovimientosCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.prenda.GetPrendaClienteSubClienteByTagCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.config.GetConfiguracion
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.InitConnectionRemote
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.remote.test.TestConnectionRemote
+import com.lafabricadesoftware.rfidlaundry.util.ConnectivityObserver
 import com.lafabricadesoftware.rfidlaundry.util.DateTimeUtils
 import com.rscja.deviceapi.RFIDWithUHFUART
 import com.rscja.deviceapi.entity.UHFTAGInfo
@@ -23,6 +25,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
@@ -36,7 +40,8 @@ class LecturaPrendasViewModel @Inject constructor(
     private val getAntenasCommon: GetAntenasByPuestoCommon,
     private val initConnectionRemote: InitConnectionRemote,
     private val testConnectionRemote: TestConnectionRemote,
-    private val setMovPrenCommon: SetMovPrenCommon
+    private val setMovPrenCommon: SetMovPrenCommon,
+    private val syncPendingMovimientosCommon: SyncPendingMovimientosCommon
 //    private val getLastMovPrenByIdPrendaCommon: GetLastMovPrenByIdPrendaCommon
 ) : ViewModel() {
 
@@ -70,6 +75,10 @@ class LecturaPrendasViewModel @Inject constructor(
     private var getAntenasJob: Job? = null
     private var filterPrendas: Job? = null
     private var generateMovementsJob: Job? = null
+    private var syncPendingJob: Job? = null
+
+    //Connectivity
+    private val connectivityObserver = ConnectivityObserver(context)
 
     //Time
     private var verifyTime = 0L
@@ -122,6 +131,32 @@ class LecturaPrendasViewModel @Inject constructor(
 //        }
         println("---------------------------------------------- antennaId: jai -- ---")
         onEvent(LecturaPrendasEvent.TestConnection)
+
+        // Observe pending movements count
+        localRepository.getMovPrenPendientesCountAsFlow()
+            .onEach { count ->
+                _uiState.value = _uiState.value.copy(pendingMovementsCount = count)
+            }
+            .launchIn(viewModelScope)
+
+        // Observe network connectivity and sync pending movements when back online
+        connectivityObserver.isConnected
+            .onEach { isConnected ->
+                if (isConnected) {
+                    syncPendingJob?.cancel()
+                    syncPendingJob = viewModelScope.launch(Dispatchers.IO) {
+                        try {
+                            val synced = syncPendingMovimientosCommon()
+                            if (synced > 0) {
+                                println("+++++ SyncPending - synced $synced pending movements +++++")
+                            }
+                        } catch (e: Exception) {
+                            println("----- SyncPending error: ${e.message}")
+                        }
+                    }
+                }
+            }
+            .launchIn(viewModelScope)
 
         Timer().scheduleAtFixedRate( object : TimerTask() {
             override fun run() {

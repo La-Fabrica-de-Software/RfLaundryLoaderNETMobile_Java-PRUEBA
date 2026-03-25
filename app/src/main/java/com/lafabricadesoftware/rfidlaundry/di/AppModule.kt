@@ -20,6 +20,7 @@ import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.antena.GetAnt
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.antena.GetAntenasPuestosCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.cliente.GetClientesCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.movpren.SetMovPrenCommon
+import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.movpren.SyncPendingMovimientosCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.prenda.GetPrendaByTagCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.prenda.GetPrendaClienteSubClienteByTagCommon
 import com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.prenda.GetPrendasCommon
@@ -57,7 +58,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideLocalDatabase(app: Application): LocalDatabase {
-        return Room.databaseBuilder(app, LocalDatabase::class.java, LocalDatabase.DATABASE_NAME).build()
+        return Room.databaseBuilder(app, LocalDatabase::class.java, LocalDatabase.DATABASE_NAME)
+            .addMigrations(LocalDatabase.MIGRATION_13_14)
+            .build()
     }
     @Provides
     @Singleton
@@ -136,7 +139,8 @@ object AppModule {
             getPrendasCommon = GetPrendasCommon(repositoryLocal, repositoryRemote),
             getPrendaByTagCommon = GetPrendaByTagCommon(repositoryLocal, repositoryRemote),
             getPrendaClienteSubClienteByTagCommon = GetPrendaClienteSubClienteByTagCommon(repositoryLocal, repositoryRemote),
-            setMovPrenCommon = SetMovPrenCommon(repositoryLocal, repositoryRemote)
+            setMovPrenCommon = SetMovPrenCommon(repositoryLocal, repositoryRemote),
+            syncPendingMovimientosCommon = SyncPendingMovimientosCommon(repositoryLocal, repositoryRemote)
         )
     }
     @Provides

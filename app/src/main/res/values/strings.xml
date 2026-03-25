@@ -101,4 +101,5 @@
     <!-- Garment list items -->
     <string name="unidentified">Unidentified</string>
     <string name="total_count">Total: %1$d</string>
+    <string name="pending_movements_count">Pending offline movements: %1$d</string>
 </resources>

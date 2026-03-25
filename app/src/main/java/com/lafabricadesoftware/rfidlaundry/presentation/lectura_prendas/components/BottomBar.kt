@@ -26,6 +26,16 @@ fun BottomBar(
         contentColor = colorResource(R.color.lfds_secondary_500)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
+            if (uiState.value.pendingMovementsCount > 0) {
+                Text(
+                    text = stringResource(R.string.pending_movements_count, uiState.value.pendingMovementsCount),
+                    color = colorResource(R.color.white_66a),
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 2.dp)
+                )
+            }
             Button(modifier = Modifier
                 .padding(10.dp, 0.dp)
                 .align(Alignment.CenterHorizontally),

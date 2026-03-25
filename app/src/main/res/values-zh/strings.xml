@@ -99,4 +99,5 @@
     <!-- 服装列表项 -->
     <string name="unidentified">未识别</string>
     <string name="total_count">总计：%1$d</string>
+    <string name="pending_movements_count">待同步的离线动作：%1$d</string>
 </resources>

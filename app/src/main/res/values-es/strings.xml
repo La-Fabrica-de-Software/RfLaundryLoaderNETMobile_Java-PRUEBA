@@ -99,4 +99,5 @@
     <!-- Elementos de la lista de prendas -->
     <string name="unidentified">Sin identificar</string>
     <string name="total_count">Total: %1$d</string>
+    <string name="pending_movements_count">Movimientos offline pendientes: %1$d</string>
 </resources>

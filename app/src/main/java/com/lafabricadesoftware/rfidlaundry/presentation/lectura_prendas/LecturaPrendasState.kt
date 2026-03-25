@@ -27,5 +27,6 @@ data class LecturaPrendasState(
     val selectedClientId: Int = 0,
     val selectedSubClientId: Int = 0,
     val hideMovementDismissConfirmButtons: Boolean = false,
-    val goToConfig: Boolean = false
+    val goToConfig: Boolean = false,
+    val pendingMovementsCount: Int = 0
 ) {}

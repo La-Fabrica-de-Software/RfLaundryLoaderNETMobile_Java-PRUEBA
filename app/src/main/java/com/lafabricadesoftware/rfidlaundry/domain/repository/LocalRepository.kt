@@ -61,4 +61,11 @@ interface LocalRepository {
     suspend fun getTaquillas(): List<MasterTaquilla>
     suspend fun getTaquillaByDescripcion(descripcion: String): MasterTaquilla
     //endregion
+
+    //region MovPrenPendiente
+    suspend fun getMovPrenPendientes(): List<MovPrenPendiente>
+    fun getMovPrenPendientesCountAsFlow(): Flow<Int>
+    suspend fun insertMovPrenPendiente(movPren: MovPrenPendiente)
+    suspend fun deleteMovPrenPendiente(movPren: MovPrenPendiente)
+    //endregion
 }

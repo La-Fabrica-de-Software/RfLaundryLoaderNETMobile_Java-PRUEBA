@@ -1,10 +1,10 @@
 package com.lafabricadesoftware.rfidlaundry.domain.use_cases.common.movpren
 
 import com.lafabricadesoftware.rfidlaundry.domain.model.MovPren
+import com.lafabricadesoftware.rfidlaundry.domain.model.MovPrenPendiente
 import com.lafabricadesoftware.rfidlaundry.domain.model.ui.Prenda
 import com.lafabricadesoftware.rfidlaundry.domain.repository.LocalRepository
 import com.lafabricadesoftware.rfidlaundry.domain.repository.RemoteRepository
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import javax.inject.Inject
@@ -26,9 +26,10 @@ class SetMovPrenCommon @Inject constructor(
         }
 
         prendasForMovement.forEach {
+            val fecha = LocalDate.now().atStartOfDay().toString()
             val movPren = MovPren(
                 Id_Prenda = it.idPrenda,
-                Fecha = LocalDate.now().atStartOfDay().toString(),
+                Fecha = fecha,
                 id_Puesto = 0,
                 id_TipoAntena = antennaId,
                 idCli = clientId,
@@ -41,11 +42,37 @@ class SetMovPrenCommon @Inject constructor(
                     remoteRepository.setMovPrenSP(movPren)
                 } else {
                     if (!validOnlineConnection) {
-                        //localRepository.setMovPrenTemp(movPren) //Salvar en tabla temporal para movimientos
+                        runBlocking {
+                            localRepository.insertMovPrenPendiente(
+                                MovPrenPendiente(
+                                    Id_Prenda = it.idPrenda,
+                                    Fecha = fecha,
+                                    id_Puesto = 0,
+                                    id_TipoAntena = antennaId,
+                                    idCli = clientId,
+                                    idSubCli = subClientId,
+                                    idModeloPrenda = it.idModeloPrenda,
+                                    talla = it.talla
+                                )
+                            )
+                        }
                     }
                 }
             } catch (e: Exception) {
-                //localRepository.setMovPrenTemp(movPren) //Salvar en tabla temporal para movimientos
+                runBlocking {
+                    localRepository.insertMovPrenPendiente(
+                        MovPrenPendiente(
+                            Id_Prenda = it.idPrenda,
+                            Fecha = fecha,
+                            id_Puesto = 0,
+                            id_TipoAntena = antennaId,
+                            idCli = clientId,
+                            idSubCli = subClientId,
+                            idModeloPrenda = it.idModeloPrenda,
+                            talla = it.talla
+                        )
+                    )
+                }
             }
         }
     }

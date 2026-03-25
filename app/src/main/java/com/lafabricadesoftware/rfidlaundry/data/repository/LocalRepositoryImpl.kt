@@ -129,4 +129,19 @@ class LocalRepositoryImpl @Inject constructor(
         return dao.getTaquillaByDescricion(descripcion)
     }
     //endregion
+
+    //region MovPrenPendiente
+    override suspend fun getMovPrenPendientes(): List<MovPrenPendiente> {
+        return dao.getMovPrenPendientes()
+    }
+    override fun getMovPrenPendientesCountAsFlow(): Flow<Int> {
+        return dao.getMovPrenPendientesCountAsFlow()
+    }
+    override suspend fun insertMovPrenPendiente(movPren: MovPrenPendiente) {
+        return dao.insertMovPrenPendiente(movPren)
+    }
+    override suspend fun deleteMovPrenPendiente(movPren: MovPrenPendiente) {
+        return dao.deleteMovPrenPendiente(movPren)
+    }
+    //endregion
 }
